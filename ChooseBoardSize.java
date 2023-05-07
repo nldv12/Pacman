@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ChooseBoardSize extends JFrame {
+    Game game;
+    public ChooseBoardSize(Game game){
+        this.game = game;
+    }
 
     public int boardSize = 0;
     public ChooseBoardSize(){
@@ -39,7 +43,7 @@ public class ChooseBoardSize extends JFrame {
                 int value = Integer.parseInt(text);
                 if (value >= 10 && value <= 100) {
                     boardSize = value;
-                    SwingUtilities.invokeLater(() -> new NewGame(boardSize));
+                    SwingUtilities.invokeLater(() -> new NewGame(game, boardSize));
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(ChooseBoardSize.this, "Wprowadzona wartość musi być z zakresu od 10 do 100", "Błąd", JOptionPane.ERROR_MESSAGE);

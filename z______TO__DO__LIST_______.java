@@ -4,7 +4,7 @@ public class z______TO__DO__LIST_______ {
 
     /*
 
-    ------------- Ulepszenia
+    ------------- Ulepszenia -----------
         przeciwnicy raz na 5 sekund z prawdopodobieństwem 25% tworzą ulepszenia (np.
         +50% prędkości poruszania się itp.), które gracz może zebrać. Zaimplementuj min. 5 różnych
         niebanalnych ulepszeń.
@@ -43,20 +43,6 @@ public class z______TO__DO__LIST_______ {
 
     Must Not :
     ---- nie można używać narzędzi WYSIWYG (tzw.Window Builder’ów)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     */
 }
