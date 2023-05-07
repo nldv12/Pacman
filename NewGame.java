@@ -16,17 +16,24 @@ public class NewGame extends JFrame {
         getContentPane().setLayout(new BorderLayout());
 
         panel1.setBackground(Color.BLUE);
-        panel1.setPreferredSize(new Dimension(500,100));
+        panel1.setPreferredSize(new Dimension(500,40));
         getContentPane().add(panel1, BorderLayout.NORTH);
 
-        panel3.setBackground(Color.GREEN);
-//        getContentPane().add(panel3, BorderLayout.SOUTH);
-        panel3.setPreferredSize(new Dimension(500,100));
+        panel2 = new JPanel();
+        panel2.setPreferredSize(new Dimension(500,500));
+        panel2.setBackground(Color.RED);
+        getContentPane().add(panel2, BorderLayout.CENTER);
         createTable(boardSize);
+
+        panel3.setBackground(Color.GREEN);
+        getContentPane().add(panel3, BorderLayout.SOUTH);
+        panel3.setPreferredSize(new Dimension(500,40));
 
 
         getContentPane().setBackground(Color.BLACK);
-        setSize(500, 700);
+        setPreferredSize(new Dimension(500,600));
+        setSize(500, 600);
+
         setVisible(true);
         setLocationRelativeTo(null);
 //        setResizable(false);
@@ -35,18 +42,9 @@ public class NewGame extends JFrame {
     }
 
     private void createTable(int boardSize) {
-        panel2 = new JPanel();
-        panel2.setPreferredSize(new Dimension(500,500));
-        panel2.setBackground(Color.RED);
-        getContentPane().add(panel2, BorderLayout.CENTER);
-
         int cellSize = 2000 / boardSize;
-
         JTable table = new JTable(new CustomTableModel(boardSize));
         table.setDefaultRenderer(Object.class, new CustomTableCellRenderer(cellSize));
-
-
-
         panel2.setLayout(new BorderLayout());
         panel2.add(table, BorderLayout.CENTER);
     }

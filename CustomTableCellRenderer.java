@@ -16,19 +16,22 @@ class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        JLabel cell = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-        cell.setOpaque(true);
-        cell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        cell.setPreferredSize(new Dimension(cellSize, cellSize));
-        if (value.equals("#")) {
-            cell.setBackground(Color.BLUE);
-        } else if (value.equals("*")) {
-            cell.setBackground(Color.YELLOW);
-        } else if (value.equals(".")) {
-            cell.setBackground(Color.BLACK);
-        } else {
-            cell.setBackground(Color.WHITE);
+        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+        if (value instanceof Boolean) {
+            boolean val = (Boolean) value;
+            if (val == true) {
+                c.setForeground(Constants.MY_BOWN);
+                c.setBackground(Constants.MY_BOWN);
+            } else {
+                c.setForeground(Constants.MY_BLACK);
+                c.setBackground(Constants.MY_BLACK);
+            }
+            if (!isSelected) {
+                // usuwamy obramowanie komórki
+                setBorder(BorderFactory.createEmptyBorder());
+            }
         }
-        return cell;
+        return c;
     }
 }

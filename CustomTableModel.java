@@ -14,11 +14,13 @@ class CustomTableModel extends AbstractTableModel {
             for (int col = 0; col < size; col++) {
                 if (row == 0 || col == 0 || row == size - 1 || col == size - 1) {
                     // jeśli to jest krawędź planszy, to ustawiamy wartość true (ściana)
+
+                    data[row][col] = true;
                     data[row][col] = true;
                 } else {
                     // w przeciwnym razie losujemy, czy na tym polu jest punkt czy nie
-                    data[row][col] = Math.random() > 0.2;
-//                    data[row][col] = false;
+//                    data[row][col] = Math.random() > 0.2;
+                    data[row][col] = false;
                 }
             }
         }
