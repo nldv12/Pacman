@@ -19,8 +19,8 @@ class CustomTableModel extends AbstractTableModel {
                     data[row][col] = true;
                 } else {
                     // w przeciwnym razie losujemy, czy na tym polu jest punkt czy nie
-//                    data[row][col] = Math.random() > 0.2;
-                    data[row][col] = false;
+                    data[row][col] = Math.random() > 0.9;
+//                    data[row][col] = false;
                 }
             }
         }
