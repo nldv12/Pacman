@@ -1,6 +1,6 @@
 package p2;
 
-import p2.GUI.NewGame;
+import p2.FRAMES.NewGame;
 import p2.Operations.FatchVievOperation;
 
 public class Task_Viev implements Runnable{

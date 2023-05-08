@@ -1,4 +1,4 @@
-package p2.GUI;
+package p2.FRAMES;
 
 import p2.Enums.PacMovement;
 import p2.Game;
@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -77,9 +76,14 @@ public class NewGame extends JFrame {
 
     private void createTable(int boardSize) {
 
-        int cellSize = 2000 / boardSize;
+        int cellSize = 500 / boardSize;
+        int preferredSize = cellSize * boardSize;
+
         table = new JTable(new CustomTableModel(boardSize));
-        table.setPreferredSize(new Dimension(500,500));
+        table.setCellSelectionEnabled(false);
+        table.getTableHeader().setPreferredSize(new Dimension(preferredSize, cellSize));
+        table.setPreferredSize(new Dimension(preferredSize, preferredSize));
+//        table.setPreferredSize(new Dimension(500,500));
         table.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -103,6 +107,11 @@ public class NewGame extends JFrame {
                     MovePacOperation movePacOperation = new MovePacOperation(PacMovement.MOVE_DOWN);
                     game.performOperation(movePacOperation);
                 }
+                else if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
+                    SwingUtilities.invokeLater(() -> new MainMenu(game));
+                    dispose();
+                }
+
             }
         });
 
@@ -121,11 +130,6 @@ public class NewGame extends JFrame {
             pacmanPanel.setImage(pacmanTile);
             pacmanPanel.repaint();
         }
-
-//        pacmanPanel = new ImagePanel(pacmanTile);
-//        pacmanPanel.setBackground(new Color(0,0,0,0));
-//        table.add(pacmanPanel);
-
 
     }
 

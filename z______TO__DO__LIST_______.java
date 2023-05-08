@@ -18,7 +18,7 @@ public class z______TO__DO__LIST_______ {
     ---- animacja jedzenia
 
 
-    ---- złożony skrót klawiszowy (Ctrl+Shift+Q) kończy grę i wraca do menu głównego
+    ++++ złożony skrót klawiszowy (Ctrl+Shift+Q) kończy grę i wraca do menu głównego
 
 
     ---- okno z Prośbą o wpisanie nazwy gracza żeby wyświetlić go w rankingu

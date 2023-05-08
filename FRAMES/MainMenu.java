@@ -1,6 +1,7 @@
-package p2.GUI;
+package p2.FRAMES;
 
 import p2.Constants;
+import p2.Game;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,8 +9,10 @@ import java.awt.*;
 public class MainMenu extends JFrame {
     private static final int WIDTH = 300;
     private static final int HEIGHT = 300;
+    Game game;
 
-    public MainMenu(){
+    public MainMenu(Game game){
+        this.game = game;
         setTitle("Pacman - Menu Główne");
 
 
@@ -26,6 +29,10 @@ public class MainMenu extends JFrame {
         });
 
         JButton highScores = new JButton("High Scores");
+        highScores.addActionListener(e -> {
+            SwingUtilities.invokeLater(() -> new HighScores(game));
+            dispose();
+        });
 
 
         JButton exit = new JButton("Exit");
@@ -46,7 +53,7 @@ public class MainMenu extends JFrame {
         setSize(WIDTH, HEIGHT);
         setVisible(true);
         setLocationRelativeTo(null);
-        setResizable(false);
+//        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     private void setButtonAppearance(JButton button) {

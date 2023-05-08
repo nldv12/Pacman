@@ -8,7 +8,7 @@ public class Task_Game implements Runnable {
 
     Game game;
 
-    Task_Game(Game game){
+    public Task_Game(Game game){
         this.game = game;
     }
 
