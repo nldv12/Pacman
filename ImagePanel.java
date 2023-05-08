@@ -4,10 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-class ImagePanel extends JPanel {
+public class ImagePanel extends JPanel {
     private BufferedImage image;
 
     public ImagePanel(BufferedImage image) {
+        this.image = image;
+    }
+
+    public void setImage(BufferedImage image) {
         this.image = image;
     }
 

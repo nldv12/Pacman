@@ -1,14 +1,16 @@
-package p2;
+package p2.Models;
+
+import p2.Constants;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
-class CustomTableCellRenderer extends DefaultTableCellRenderer {
+public class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
     private final int cellSize;
 
-    CustomTableCellRenderer(int cellSize) {
+    public CustomTableCellRenderer(int cellSize) {
         this.cellSize = cellSize;
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);

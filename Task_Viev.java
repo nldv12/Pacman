@@ -1,5 +1,8 @@
 package p2;
 
+import p2.GUI.NewGame;
+import p2.Operations.FatchVievOperation;
+
 public class Task_Viev implements Runnable{
 
     Game game;
@@ -17,8 +20,8 @@ public class Task_Viev implements Runnable{
         try {
             while (true){
                 FatchVievOperation fatchVievOperation = new FatchVievOperation();
-                game.prformOperation(fatchVievOperation);
-                newGame.pacmanPanel.setBounds(fatchVievOperation.pacXposition,100,32,32);
+                game.performOperation(fatchVievOperation);
+                newGame.pacmanPanel.setBounds(fatchVievOperation.getPacXposition(),fatchVievOperation.getPacYposition(),32,32);
 
 
                 Thread.sleep(100);

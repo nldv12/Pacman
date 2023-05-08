@@ -1,4 +1,4 @@
-package p2;
+package p2.Models;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

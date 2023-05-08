@@ -1,4 +1,6 @@
-package p2;
+package p2.GUI;
+
+import p2.Constants;
 
 import javax.swing.*;
 import java.awt.*;

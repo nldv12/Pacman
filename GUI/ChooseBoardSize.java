@@ -1,9 +1,10 @@
-package p2;
+package p2.GUI;
+
+import p2.Constants;
+import p2.Game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class ChooseBoardSize extends JFrame {
     Game game;

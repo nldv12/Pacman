@@ -1,13 +1,13 @@
-package p2;
+package p2.Models;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 
-class CustomTableModel extends AbstractTableModel {
+public class CustomTableModel extends AbstractTableModel {
     private final int size;
     private Object[][] data;
 
-    CustomTableModel(int size) {
+    public CustomTableModel(int size) {
         this.size = size;
         this.data = new Object[size][size];
         for (int row = 0; row < size; row++) {
