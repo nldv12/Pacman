@@ -34,8 +34,8 @@ public class Game {
         boolean succes = false;
         while (!succes) {
             if (map[a][b] == FieldValue.SPACE) {
-                pucManX = a;
-                pucManY = b;
+                pucManX = a+0.5f;
+                pucManY = b+0.5f;
                 succes = true;
             } else {
                 if (b == boardSize - 1) {
@@ -85,9 +85,6 @@ public class Game {
                 bigDotCount++;
             }
         }
-
-        System.out.println();
-
 
         return board;
     }

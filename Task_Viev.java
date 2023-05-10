@@ -55,7 +55,6 @@ public class Task_Viev implements Runnable {
         }
     }
     private void changePacman() {
-
         if (game.pacMovement == PacMovement.MOVE_RIGHT) {
             if (System.currentTimeMillis() % 2 == 0)
                 setPacmanImage(35, 3);
