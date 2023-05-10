@@ -1,21 +1,27 @@
 package p2.Operations;
 
+import p2.Enums.FieldValue;
 import p2.Game;
 
 public class FatchVievOperation extends GameOperation{
 
-    private int pacXposition;
-    private int pacYposition;
+    private float pacXposition;
+    private float pacYposition;
+
+    public FieldValue[][] map;
+
     @Override
     public void doOperation(Game game) {
-        pacXposition = (int)game.pucManX;
-        pacYposition = (int)game.pucManY;
+        pacXposition = game.pucManX;
+        pacYposition = game.pucManY;
+        map = game.map.clone();
+
     }
 
-    public int getPacXposition() {
+    public float getPacXposition() {
         return pacXposition;
     }
-    public int getPacYposition() {
+    public float getPacYposition() {
         return pacYposition;
     }
 }

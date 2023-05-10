@@ -5,32 +5,15 @@ import javax.swing.table.AbstractTableModel;
 
 public class CustomTableModel extends AbstractTableModel {
     private final int size;
-    private Object[][] data;
 
     public CustomTableModel(int size) {
         this.size = size;
-        this.data = new Object[size][size];
-        for (int row = 0; row < size; row++) {
-            for (int col = 0; col < size; col++) {
-                if (row == 0 || col == 0 || row == size - 1 || col == size - 1) {
-                    // jeśli to jest krawędź planszy, to ustawiamy wartość true (ściana)
-
-                    data[row][col] = true;
-                    data[row][col] = true;
-                } else {
-                    // w przeciwnym razie losujemy, czy na tym polu jest punkt czy nie
-//                    data[row][col] = Math.random() > 0.9;
-                    data[row][col] = false;
-                }
-            }
-        }
     }
 
     @Override
     public int getRowCount() {
         return size;
     }
-
     @Override
     public int getColumnCount() {
         return size;
@@ -38,7 +21,7 @@ public class CustomTableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int row, int col) {
-        return data[row][col];
+        return null;
     }
 
     public boolean isCellEditable(int row, int col) {

@@ -7,15 +7,15 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        Game game = new Game();
-
-
+        int num = 20;
+        Game game = new Game(num);
 //        SwingUtilities.invokeLater(() -> new MainMenu(game));
 //        SwingUtilities.invokeLater(() -> new HighScores(game));
 //        SwingUtilities.invokeLater(() -> new ChoosePlayerName(game));
 //        SwingUtilities.invokeLater(() -> new ChooseBoardSize());
         SwingUtilities.invokeLater(() -> {// do usunięcia
-            NewGame newGame = new NewGame(game,30);
+
+            NewGame newGame = new NewGame(game,num);
             Task_Viev task_viev = new Task_Viev(newGame,game);
             Thread viev = new Thread(task_viev);
             viev.start();

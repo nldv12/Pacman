@@ -14,13 +14,18 @@ public class Task_Game implements Runnable {
 
     @Override
     public void run() {
-
         try {
+            long prevTime = System.currentTimeMillis();
+
             while (true) {
-                StepOperation stepOperation = new StepOperation();
+                long now = System.currentTimeMillis();
+                long deltaTime = now - prevTime;
+
+                StepOperation stepOperation = new StepOperation(deltaTime, now);
                 game.performOperation(stepOperation);
 
-                Thread.sleep(10);
+                prevTime = now;
+                Thread.sleep(100);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

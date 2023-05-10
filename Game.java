@@ -1,28 +1,101 @@
 package p2;
 
+import p2.Enums.FieldValue;
 import p2.Enums.PacMovement;
+import p2.FRAMES.ChoosePlayerName;
+import p2.ImagePanels.ImagePanel;
 import p2.Operations.GameOperation;
+
+import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
 import java.io.File;
 
 public class Game {
+    private int boardSize = 30;
     private static final String FILE_NAME = "HighScores.txt";
     public String currPlayerName;
-//    private String currPlayerName;
+    //    private String currPlayerName;
     public float pucManX;
     public float pucManY;
     public PacMovement pacMovement;
 
-//    int[][] map = new int[][];
+    public FieldValue[][] map;
 
-//    TODO: enum space, dot, big dot, wall
-    public synchronized void performOperation(GameOperation operation){
+    private int playerScore = 500;
+
+
+    public Game(int boardSize) {
+        this.boardSize = boardSize;
+        map = generatedBoard(boardSize);
+        int a = 0;
+        int b = 0;
+        boolean succes = false;
+        while (!succes) {
+            if (map[a][b] == FieldValue.SPACE) {
+                pucManX = a;
+                pucManY = b;
+                succes = true;
+            } else {
+                if (b == boardSize - 1) {
+                    a++;
+                    b = 0;
+                } else {
+                    b++;
+                }
+            }
+        }
+    }
+
+    public FieldValue[][] generatedBoard(int size) {
+        FieldValue[][] board = new FieldValue[size][size];
+        for (int i = 0; i < size; i++) {
+            board[i][0] = FieldValue.WALL;
+            board[0][i] = FieldValue.WALL;
+            board[i][size - 1] = FieldValue.WALL;
+            board[size - 1][i] = FieldValue.WALL;
+        }
+        Random rand = new Random();
+        int dotCount = 0;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (board[i][j] == null) {
+                    if (rand.nextDouble() < 0.89) {
+                        board[i][j] = FieldValue.SPACE;
+                        if (dotCount < size * size / 2 && rand.nextDouble() < 0.5) {
+                            board[i][j] = FieldValue.DOT;
+                            dotCount++;
+                        }
+                    } else {
+                        board[i][j] = FieldValue.WALL;
+                    }
+                }
+            }
+        }
+
+        int maxDotCount = size / 5;
+        int bigDotCount = 0;
+
+        while (bigDotCount != maxDotCount) {
+            int i = rand.nextInt(size);
+            int j = rand.nextInt(size);
+            if (board[i][j] == FieldValue.DOT) {
+                board[i][j] = FieldValue.BIG_DOT;
+                bigDotCount++;
+            }
+        }
+
+        System.out.println();
+
+
+        return board;
+    }
+
+    public synchronized void performOperation(GameOperation operation) {
 
         operation.doOperation(this);
     }
-
 
     public String getCurrPlayerName() {
         return currPlayerName;
@@ -55,7 +128,6 @@ public class Game {
     public void setPacMovement(PacMovement pacMovement) {
         this.pacMovement = pacMovement;
     }
-
 
 
     public static void addRecord(Player player) {
@@ -91,13 +163,31 @@ public class Game {
             // Zamykamy plik
             bufferedReader.close();
         } catch (FileNotFoundException e) {
-            System.err.println("Plik HighScores.txt nie istnieje.");
+            JOptionPane.showMessageDialog(null, "Plik HighScores.txt nie istnieje", "Błąd", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
-            System.err.println("Błąd podczas odczytu pliku HighScores.txt.");
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Błąd podczas odczytu pliku HighScores.txt", "Błąd", JOptionPane.ERROR_MESSAGE);
+//            e.printStackTrace();
         }
-
         return records;
     }
+
+//    GETTERS
+
+    public int getBoardSize() {
+        return boardSize;
+    }
+
+    public int getPlayerScore() {
+        return playerScore;
+    }
+
+
+
+//    SETTERS
+    public void setPlayerScore(int playerScore) {
+        this.playerScore = playerScore;
+    }
+
+
 
 }

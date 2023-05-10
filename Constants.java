@@ -5,6 +5,7 @@ import java.awt.*;
 public class Constants {
 
     public static final Color MY_ORANGE = new Color(243, 150, 15); // Kolor pomarańczowy
+    public static final Color MY_BLUE = new Color(53, 114, 243); // Kolor pomarańczowy
     public static final Color MY_BOWN = new Color(122, 51, 0); // Kolor pomarańczowy
     public static final Color MY_BLACK = new Color(35, 35, 35); // Kolor czarny
     public static final Color MY_GREY = new Color(66, 66, 66); // Kolor czarny

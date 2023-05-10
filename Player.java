@@ -15,7 +15,7 @@ public class Player implements Serializable {
 
     @Override
     public String toString() {
-        return name + " score " + score + " ";
+        return name + "   score   " + score + "   points";
     }
 }
 

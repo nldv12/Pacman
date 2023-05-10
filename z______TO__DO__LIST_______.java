@@ -4,6 +4,13 @@ public class z______TO__DO__LIST_______ {
 
     /*
 
+    HOW TO:
+    -- tabela się nie zaznaczała
+
+
+    duchy
+    
+
     ------------- Ulepszenia -----------
         przeciwnicy raz na 5 sekund z prawdopodobieństwem 25% tworzą ulepszenia (np.
         +50% prędkości poruszania się itp.), które gracz może zebrać. Zaimplementuj min. 5 różnych

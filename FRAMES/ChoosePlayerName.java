@@ -1,9 +1,6 @@
 package p2.FRAMES;
 
-import p2.Constants;
-import p2.Game;
-import p2.Task_Game;
-import p2.Task_Viev;
+import p2.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,14 +9,12 @@ import java.awt.event.ActionListener;
 
 public class ChoosePlayerName extends JFrame {
     Game game;
-//    public ChooseBoardSize(Game game){
-//        this.game = game;
-//    }
 
-    public int boardSize = 0;
+    private int score ;
 
-    public ChoosePlayerName(Game game) {
+    public ChoosePlayerName(Game game, int score) {
         this.game = game;
+        this.score = score;
 
         setTitle("Pacman - Choose Player Name");
 
@@ -44,9 +39,10 @@ public class ChoosePlayerName extends JFrame {
         panel.add(button);
 
         ActionListener okActionListener = e -> {
-            String text = textField.getText();
-            if (text.length() > 1 && text.length() < 16) {
-                game.setCurrPlayerName(text);
+            String name = textField.getText();
+            if (name.length() > 1 && name.length() < 16) {
+                game.setCurrPlayerName(name);
+                game.addRecord(new Player(name, score));
                 SwingUtilities.invokeLater(() -> new HighScores(game));
                 dispose();
             } else {
@@ -62,7 +58,6 @@ public class ChoosePlayerName extends JFrame {
                 okActionListener.actionPerformed(e);
             }
         });
-
 
         setContentPane(panel);
         pack();
