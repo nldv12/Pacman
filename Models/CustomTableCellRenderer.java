@@ -29,15 +29,15 @@ public class CustomTableCellRenderer extends DefaultTableCellRenderer {
 
         try {
             BufferedImage tileSet = ImageIO.read(new File("src\\p2\\tileSet.png"));
-            if (cellSize < 20) {
+            if (cellSize == 16) {
                 wallImage = tileSet.getSubimage(304, 105, 16, 16);
-                dotImage = tileSet.getSubimage(363, 47, 7, 7);
-                bigDotImage = tileSet.getSubimage(346, 45, 11, 11);
+                dotImage = tileSet.getSubimage(377, 43, 16, 16);
+                bigDotImage = tileSet.getSubimage(343, 43, 16, 16);
             }
-            else if (cellSize > 20) {
-                wallImage = tileSet.getSubimage(268, 100, 25, 25);
-                dotImage = tileSet.getSubimage(386, 69, 12, 12);
-                bigDotImage = tileSet.getSubimage(347, 65, 20, 20);
+            else if (cellSize == 24) {
+                wallImage = tileSet.getSubimage(268, 100, 24, 24);
+                dotImage = tileSet.getSubimage(381, 62, 24, 24);
+                bigDotImage = tileSet.getSubimage(346, 63, 24, 24);
             }
         } catch (IOException e) {
             e.printStackTrace();

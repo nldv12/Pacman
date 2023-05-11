@@ -1,6 +1,7 @@
 package p2;
 
 import p2.Enums.FieldValue;
+import p2.Enums.GhostMovement;
 import p2.Enums.PacMovement;
 import p2.FRAMES.ChoosePlayerName;
 import p2.ImagePanels.ImagePanel;
@@ -18,6 +19,10 @@ public class Game {
     public float pucManX;
     public float pucManY;
     public PacMovement pacMovement;
+    public GhostMovement ghostMovement;
+
+    public float ghostX;
+    public float ghostY;
 
     public FieldValue[][] map;
 

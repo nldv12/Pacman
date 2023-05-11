@@ -14,24 +14,27 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class NewGame extends JFrame {
-    JPanel header = new JPanel();
+    private JPanel header = new JPanel();
     private JLabel score;
-    JPanel body;
+    private JPanel body;
+
     public JTable table;
     public CustomTableCellRenderer cellRenderer;
-    Game game;
-    int cellSize;
-    int width;
-    int height;
-    boolean isBigMap;
+    private Game game;
+    private int cellSize;
+    private int gameTimeInSeconds;
+    private int width;
+    private int height;
+    private boolean isBigMap;
 
     private CountdownPanel countdownPanel;
 
 
-    public NewGame(Game game, int boardSize) {
+    public NewGame(Game game, int boardSize, int gameTimeInSeconds) {
+        this.gameTimeInSeconds = gameTimeInSeconds;
         this.game = game;
         if (boardSize < 30) {
-            this.cellSize = 25;
+            this.cellSize = 24;
         } else if (boardSize > 30 ) {
             this.cellSize = 16;
         }
@@ -73,9 +76,7 @@ public class NewGame extends JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
-
     private void fillHeader() {
 //        header.setLayout();
         JLabel scoreName = new JLabel("Score: ");
@@ -85,10 +86,8 @@ public class NewGame extends JFrame {
         score.setForeground(Constants.MY_ORANGE);
         score.setFont(Constants.MY_FONT2);
         LivesPanel livesPanel = new LivesPanel(5);
-
         JLabel space = new JLabel("      ");
-
-        countdownPanel = new CountdownPanel(120);
+        countdownPanel = new CountdownPanel(gameTimeInSeconds);
 
 
 
@@ -142,6 +141,10 @@ public class NewGame extends JFrame {
 
     public void updateScore(){
         score.setText(game.getPlayerScore()+"   ");
+    }
+
+    public int getCellSize() {
+        return cellSize;
     }
 
 }

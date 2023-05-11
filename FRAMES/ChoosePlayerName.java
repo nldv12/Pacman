@@ -19,6 +19,8 @@ public class ChoosePlayerName extends JFrame {
         setTitle("Pacman - Choose Player Name");
 
         JPanel panel = new JPanel(new FlowLayout());
+        JOptionPane.showMessageDialog(ChoosePlayerName.this, "Skończył ci się czas ale nadal możesz zapisać swój wynnik, bo nie zginąłęś", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
 
         JLabel label = new JLabel("Wprowadź nazwę gracza");
         label.setForeground(Constants.MY_ORANGE);

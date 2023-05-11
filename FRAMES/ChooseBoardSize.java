@@ -50,8 +50,8 @@ public class ChooseBoardSize extends JFrame {
                 if (value >= 10 && value <= 100) {
                     boardSize = value;
                     game = new Game(boardSize);
-                    SwingUtilities.invokeLater(() -> {// do przeniesienia we właściwe miejsce czyli do chooseBoardSize
-                        NewGame newGame = new NewGame(game,boardSize);
+                    SwingUtilities.invokeLater(() -> {
+                        NewGame newGame = new NewGame(game,boardSize,300);
                         Task_Viev task_viev = new Task_Viev(newGame,game);
                         Thread viev = new Thread(task_viev);
                         viev.start();
