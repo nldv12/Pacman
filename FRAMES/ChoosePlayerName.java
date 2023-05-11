@@ -41,7 +41,6 @@ public class ChoosePlayerName extends JFrame {
         ActionListener okActionListener = e -> {
             String name = textField.getText();
             if (name.length() > 1 && name.length() < 16) {
-                game.setCurrPlayerName(name);
                 game.addRecord(new Player(name, score));
                 SwingUtilities.invokeLater(() -> new HighScores(game));
                 dispose();

@@ -13,19 +13,15 @@ import java.util.*;
 import java.io.File;
 
 public class Game {
-    private int boardSize = 30;
+    private int boardSize ;
     private static final String FILE_NAME = "HighScores.txt";
-    public String currPlayerName;
-    //    private String currPlayerName;
     public float pucManX;
     public float pucManY;
     public PacMovement pacMovement;
 
     public FieldValue[][] map;
 
-    private int playerScore = 500;
-
-
+    private int playerScore = 0;
     public Game(int boardSize) {
         this.boardSize = boardSize;
         map = generatedBoard(boardSize);
@@ -33,9 +29,9 @@ public class Game {
         int b = 0;
         boolean succes = false;
         while (!succes) {
-            if (map[a][b] == FieldValue.SPACE) {
-                pucManX = a+0.5f;
-                pucManY = b+0.5f;
+            if (map[a][b] == FieldValue.SPACE && map[a][b + 1] == FieldValue.SPACE && map[a][b + 2] == FieldValue.SPACE) {
+                pucManX = a + 0.5f;
+                pucManY = b + 0.5f;
                 succes = true;
             } else {
                 if (b == boardSize - 1) {
@@ -90,40 +86,7 @@ public class Game {
     }
 
     public synchronized void performOperation(GameOperation operation) {
-
         operation.doOperation(this);
-    }
-
-    public String getCurrPlayerName() {
-        return currPlayerName;
-    }
-
-    public void setCurrPlayerName(String currPlayerName) {
-        this.currPlayerName = currPlayerName;
-    }
-
-    public float getPucManX() {
-        return pucManX;
-    }
-
-    public void setPucManX(float pucManX) {
-        this.pucManX = pucManX;
-    }
-
-    public float getPucManY() {
-        return pucManY;
-    }
-
-    public void setPucManY(float pucManY) {
-        this.pucManY = pucManY;
-    }
-
-    public PacMovement getPacMovement() {
-        return pacMovement;
-    }
-
-    public void setPacMovement(PacMovement pacMovement) {
-        this.pacMovement = pacMovement;
     }
 
 
@@ -170,21 +133,15 @@ public class Game {
 
 //    GETTERS
 
-    public int getBoardSize() {
-        return boardSize;
-    }
-
     public int getPlayerScore() {
         return playerScore;
     }
 
-
-
 //    SETTERS
-    public void setPlayerScore(int playerScore) {
-        this.playerScore = playerScore;
-    }
 
+    public void incPlayerScore(int number) {
+        this.playerScore += number;
+    }
 
 
 }

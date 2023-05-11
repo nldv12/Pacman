@@ -29,22 +29,30 @@ public class Task_Viev implements Runnable {
 
     @Override
     public void run() {
+
+        try {
+            tileSet = ImageIO.read(new File("src\\p2\\tileSet.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         try {
             while (true) {
                 changePacman();
                 FatchVievOperation fatchVievOperation = new FatchVievOperation();
                 game.performOperation(fatchVievOperation);
+                newGame.updateScore();
+
                 float cellSize = newGame.table.getColumnModel().getColumn(0).getWidth();
                 int result1 = (int) (fatchVievOperation.getPacXposition() * cellSize) - 16;
                 int result2 = (int) (fatchVievOperation.getPacYposition() * cellSize) - 16;
                 pacmanPanel.setBounds(result1, result2, 25, 25);
-                if (game.getBoardSize() > 10)
-                    newGame.cellRenderer.setMap(fatchVievOperation.map);
+                newGame.cellRenderer.setMap(fatchVievOperation.map);
 
                 if (newGame.getCountdownPanel().isCountdownFinished()) {
-                            SwingUtilities.invokeLater(() -> new ChoosePlayerName(game, game.getPlayerScore()));
+                    SwingUtilities.invokeLater(() -> new ChoosePlayerName(game, game.getPlayerScore()));
                     newGame.dispose();
-                            break;
+                    break;
                 }
 
                 Thread.sleep(50);
@@ -54,6 +62,7 @@ public class Task_Viev implements Runnable {
             throw new RuntimeException(e);
         }
     }
+
     private void changePacman() {
         if (game.pacMovement == PacMovement.MOVE_RIGHT) {
             if (System.currentTimeMillis() % 2 == 0)
@@ -79,15 +88,9 @@ public class Task_Viev implements Runnable {
             setPacmanImage(67, 3);
         }
 
-
     }
 
     public void setPacmanImage(int x, int y) {
-        try {
-            tileSet = ImageIO.read(new File("src\\p2\\tileSet.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         BufferedImage pacmanTile = tileSet.getSubimage(x, y, 25, 25);
         if (pacmanPanel == null) {
             pacmanPanel = new ImagePanel(pacmanTile);
@@ -97,7 +100,6 @@ public class Task_Viev implements Runnable {
             pacmanPanel.setImage(pacmanTile);
             pacmanPanel.repaint();
         }
-
     }
 }
 

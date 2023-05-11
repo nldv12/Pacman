@@ -4,8 +4,6 @@ public class z______TO__DO__LIST_______ {
 
     /*
 
-    HOW TO:
-    -- tabela się nie zaznaczała
 
 
     duchy

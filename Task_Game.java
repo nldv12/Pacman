@@ -1,8 +1,6 @@
 package p2;
 
-import p2.Enums.PacMovement;
-import p2.Game;
-import p2.Operations.StepOperation;
+import p2.Operations.PacStepOperation;
 
 public class Task_Game implements Runnable {
 
@@ -19,10 +17,11 @@ public class Task_Game implements Runnable {
 
             while (true) {
                 long now = System.currentTimeMillis();
-                long deltaTime = now - prevTime;
+//                long deltaTime = now - prevTime;
+                long deltaTime = 100;
 
-                StepOperation stepOperation = new StepOperation(deltaTime, now);
-                game.performOperation(stepOperation);
+                PacStepOperation pacStepOperation = new PacStepOperation(deltaTime, now);
+                game.performOperation(pacStepOperation);
 
                 prevTime = now;
                 Thread.sleep(100);

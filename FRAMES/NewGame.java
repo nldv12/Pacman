@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 
 public class NewGame extends JFrame {
     JPanel header = new JPanel();
+    private JLabel score;
     JPanel body;
     public JTable table;
     public CustomTableCellRenderer cellRenderer;
@@ -80,7 +81,7 @@ public class NewGame extends JFrame {
         JLabel scoreName = new JLabel("Score: ");
         scoreName.setForeground(Constants.MY_ORANGE);
         scoreName.setFont(Constants.MY_FONT2);
-        JLabel score = new JLabel(game.getPlayerScore() +"   ");
+        score = new JLabel(game.getPlayerScore() +"   ");
         score.setForeground(Constants.MY_ORANGE);
         score.setFont(Constants.MY_FONT2);
         LivesPanel livesPanel = new LivesPanel(5);
@@ -137,6 +138,10 @@ public class NewGame extends JFrame {
 
     public CountdownPanel getCountdownPanel() {
         return countdownPanel;
+    }
+
+    public void updateScore(){
+        score.setText(game.getPlayerScore()+"   ");
     }
 
 }
