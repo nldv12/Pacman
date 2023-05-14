@@ -21,9 +21,9 @@ public class Task_Game implements Runnable {
                 long deltaTime = 100;
                 PacStepOperation pacStepOperation = new PacStepOperation(deltaTime, now);
                 game.performOperation(pacStepOperation);
-
-                GhostStepOperation ghostStepOperation= new GhostStepOperation(deltaTime, now);
-                game.performOperation(ghostStepOperation);
+//
+//                GhostStepOperation ghostStepOperation= new GhostStepOperation(deltaTime, now);
+//                game.performOperation(ghostStepOperation);
 
                 prevTime = now;
                 Thread.sleep(100);

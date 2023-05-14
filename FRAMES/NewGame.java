@@ -9,6 +9,7 @@ import p2.Models.CustomTableModel;
 import p2.Operations.MovePacOperation;
 
 import javax.swing.*;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -110,6 +111,18 @@ public class NewGame extends JFrame {
         realCellSizeX = body.getWidth()/boardSize;
 
 
+//        int totalWidth = 0;
+//        for (int column = 0; column < table.getColumnCount(); column++) {
+//            TableColumn tableColumn = table.getColumnModel().getColumn(column);
+//            totalWidth += tableColumn.getWidth();
+//        }
+//        realCellSizeY = (cellRect2.y - cellRect.y) /(boardSize-1);
+//        realCellSizeX = totalWidth/boardSize;
+//        double test = body.getWidth();
+//
+//
+//        System.out.println();
+
 
     }
     private void fillHeader() {
@@ -120,7 +133,7 @@ public class NewGame extends JFrame {
         score = new JLabel(game.getPlayerScore() +"   ");
         score.setForeground(Constants.MY_ORANGE);
         score.setFont(Constants.MY_FONT2);
-        LivesPanel livesPanel = new LivesPanel(5);
+        LivesPanel livesPanel = new LivesPanel(3);
         JLabel space = new JLabel("      ");
         countdownPanel = new CountdownPanel(gameTimeInSeconds);
 

@@ -18,40 +18,37 @@ public class PacStepOperation extends GameOperation {
 
     @Override
     public void doOperation(Game game) {
-        float restY = (game.pucManY - (int) game.pucManY);
-        float restX = (game.pucManX - (int) game.pucManX);
+        float restY = (game.getPucManY() - (int) game.getPucManY());
+        float restX = (game.getPucManX() - (int) game.getPucManX());
 
         if (restX != 0.5 && restY != 0.5) {
-            game.pucManX = (int) game.pucManX + 0.5f;
-            game.pucManY = (int) game.pucManY + 0.5f;
+            finishMovement(game);
             game.setPacMovement(game.getNextMove());
         }else {
             game.setPacMovement(game.getNextMove());
         }
 
 
-
-
         if (game.getPacMovement() == PacMovement.MOVE_RIGHT) {
-            int nextXposition = (int) (game.pucManX + 1);
-            int nextYposition = (int) (game.pucManY);
+            int nextXposition = (int) (game.getPucManX() + 1);
+            int nextYposition = (int) (game.getPucManY());
             handleEating(game, nextXposition, nextYposition);
             movePacman(game, nextXposition, nextYposition, game.getPacMovement());
         } else if (game.getPacMovement() == PacMovement.MOVE_lEFT) {
-            int nextXposition = (int) (game.pucManX - 1);
-            int nextYposition = (int) (game.pucManY);
+            int nextXposition = (int) (game.getPucManX() - 1);
+            int nextYposition = (int) (game.getPucManY());
             handleEating(game, nextXposition, nextYposition);
             movePacman(game, nextXposition, nextYposition, game.getPacMovement());
 
         } else if (game.getPacMovement() == PacMovement.MOVE_UP) {
-            int nextXposition = (int) (game.pucManX);
-            int nextYposition = (int) (game.pucManY - 1);
+            int nextXposition = (int) (game.getPucManX());
+            int nextYposition = (int) (game.getPucManY() - 1);
             handleEating(game, nextXposition, nextYposition);
             movePacman(game, nextXposition, nextYposition, game.getPacMovement());
 
         } else if (game.getPacMovement() == PacMovement.MOVE_DOWN) {
-            int nextXposition = (int) (game.pucManX);
-            int nextYposition = (int) (game.pucManY + 1);
+            int nextXposition = (int) (game.getPucManX());
+            int nextYposition = (int) (game.getPucManY() + 1);
             handleEating(game, nextXposition, nextYposition);
             movePacman(game, nextXposition, nextYposition, game.getPacMovement());
 
@@ -61,31 +58,34 @@ public class PacStepOperation extends GameOperation {
     public void movePacman(Game game, int nextXposition, int nextYposition, PacMovement pacMovement) {
         if (game.map[nextYposition][nextXposition] != FieldValue.WALL) {
             switch (pacMovement) {
-                case MOVE_RIGHT -> game.pucManX += 1;
-                case MOVE_lEFT -> game.pucManX -= 1;
-                case MOVE_UP -> game.pucManY -= 1;
-                case MOVE_DOWN -> game.pucManY += 1;
+                case MOVE_RIGHT -> game.setPucManX(game.getPucManX() + 1);
+                case MOVE_lEFT -> game.setPucManX(game.getPucManX() - 1);
+                case MOVE_UP -> game.setPucManY(game.getPucManY() - 1);
+                case MOVE_DOWN -> game.setPucManY(game.getPucManY() + 1);
 //                case MOVE_RIGHT -> game.pucManX += deltaTime * pacSpeed;
 //                case MOVE_lEFT -> game.pucManX -= deltaTime * pacSpeed;
 //                case MOVE_UP -> game.pucManY -= deltaTime * pacSpeed;
 //                case MOVE_DOWN -> game.pucManY += deltaTime * pacSpeed;
             }
         } else {
-            game.pucManX = (int) game.pucManX + 0.5f;
-            game.pucManY = (int) game.pucManY + 0.5f;
+            finishMovement(game);
             game.setPacMovement(PacMovement.STAY);
         }
+    }
+    public void finishMovement(Game game){
+        game.setPucManX((int) game.getPucManX() + 0.5f);
+        game.setPucManY((int) game.getPucManY() + 0.5f);
     }
 
     public void handleEating(Game game, int nextXposition, int nextYposition) {
         if (game.map[nextYposition][nextXposition] == FieldValue.DOT) {
             game.incPlayerScore(1);
+            game.decDotCount();
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
-            System.out.println();
         } else if (game.map[nextYposition][nextXposition] == FieldValue.BIG_DOT) {
             game.incPlayerScore(10);
+            game.decBigDotCount();
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
-            System.out.println();
         }
     }
 

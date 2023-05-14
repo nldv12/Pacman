@@ -12,8 +12,8 @@ public class FatchVievOperation extends GameOperation{
 
     @Override
     public void doOperation(Game game) {
-        pacXposition = game.pucManX;
-        pacYposition = game.pucManY;
+        pacXposition = game.getPucManX();
+        pacYposition = game.getPucManY();
         map = game.map.clone();
 
     }

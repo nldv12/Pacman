@@ -23,7 +23,6 @@ public class Task_Viev implements Runnable {
     boolean ispowerUp = false;
 
 
-
     public Task_Viev(NewGame newGame, Game game) {
         this.game = game;
         this.newGame = newGame;
@@ -45,17 +44,34 @@ public class Task_Viev implements Runnable {
                 game.performOperation(fatchVievOperation);
                 newGame.updateScore();
 
-                int vievPacX = (int) ((fatchVievOperation.getPacXposition() *  newGame.realCellSizeX) - newGame.realCellSizeX/2);
-                int vievPacY = (int) ((fatchVievOperation.getPacYposition() * newGame.realCellSizeY) -  newGame.realCellSizeY/2);
+                int vievPacX = (int) ((fatchVievOperation.getPacXposition() * newGame.realCellSizeX) - newGame.realCellSizeX / 2);
+                int vievPacY = (int) ((fatchVievOperation.getPacYposition() * newGame.realCellSizeY) - newGame.realCellSizeY / 2);
 //                ghostPanel.setBounds(60,60,25, 25);
-                pacmanPanel.setBounds(vievPacX, vievPacY, (int)newGame.realCellSizeX, (int)newGame.realCellSizeY);
+                pacmanPanel.setBounds(vievPacX, vievPacY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
                 newGame.cellRenderer.setMap(fatchVievOperation.map);
 
-                if (newGame.getCountdownPanel().isCountdownFinished()) {
+                int dots = game.getDotCount();
+                int bigdots = game.getBigDotCount();
+
+
+
+
+                boolean outOfTime = newGame.getCountdownPanel().isCountdownFinished();
+                boolean ateAllDots = game.getBigDotCount() == 3 && game.getDotCount() == 0;
+
+                if (outOfTime || ateAllDots) {
+                    if (outOfTime)
+                        JOptionPane.showMessageDialog(null, "Skończył ci się czas ale nadal możesz zapisać swój wynnik, bo nie zginąłęś", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                    if (ateAllDots)
+                        JOptionPane.showMessageDialog(null, "Brawo! Wygrałeś", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
                     SwingUtilities.invokeLater(() -> new ChoosePlayerName(game, game.getPlayerScore()));
+
                     newGame.dispose();
                     break;
                 }
+
+
                 Thread.sleep(20);
             }
 
@@ -66,7 +82,7 @@ public class Task_Viev implements Runnable {
 
     private void changePacman() {
 
-        if (newGame.getCellSize() == 24){
+        if (newGame.getCellSize() == 24) {
             if (game.getPacMovement() == PacMovement.MOVE_RIGHT) {
                 if (System.currentTimeMillis() % 2 == 0)
                     setPacmanImage(31, 3);
@@ -79,7 +95,7 @@ public class Task_Viev implements Runnable {
                     setPacmanImage(6, 29);
             } else if (game.getPacMovement() == PacMovement.MOVE_UP) {
                 if (System.currentTimeMillis() % 2 == 0)
-                    setPacmanImage(32, 56 );
+                    setPacmanImage(32, 56);
                 else
                     setPacmanImage(6, 56);
             } else if (game.getPacMovement() == PacMovement.MOVE_DOWN) {
@@ -90,7 +106,7 @@ public class Task_Viev implements Runnable {
             } else {
                 setPacmanImage(58, 3);
             }
-        }else {
+        } else {
             if (game.getPacMovement() == PacMovement.MOVE_RIGHT) {
                 if (System.currentTimeMillis() % 2 == 0)
                     setPacmanImage(245, 102);
@@ -137,9 +153,9 @@ public class Task_Viev implements Runnable {
     }
 
     private void changeGhost() {
-        if (ispowerUp){
+        if (ispowerUp) {
             setGhostImage(69, 132);
-        }else{
+        } else {
             if (System.currentTimeMillis() % 2 == 0)
                 setGhostImage(6, 132);
             else
