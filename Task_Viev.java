@@ -45,8 +45,8 @@ public class Task_Viev implements Runnable {
                 game.performOperation(fatchVievOperation);
                 newGame.updateScore();
 
-                int vievPacX = (int) ((int) (fatchVievOperation.getPacXposition() *  newGame.realCellSizeX) - newGame.realCellSizeX/2);
-                int vievPacY = (int) ((int) (fatchVievOperation.getPacYposition() * newGame.realCellSizeY) -  newGame.realCellSizeY/2);
+                int vievPacX = (int) ((fatchVievOperation.getPacXposition() *  newGame.realCellSizeX) - newGame.realCellSizeX/2);
+                int vievPacY = (int) ((fatchVievOperation.getPacYposition() * newGame.realCellSizeY) -  newGame.realCellSizeY/2);
 //                ghostPanel.setBounds(60,60,25, 25);
                 pacmanPanel.setBounds(vievPacX, vievPacY, (int)newGame.realCellSizeX, (int)newGame.realCellSizeY);
                 newGame.cellRenderer.setMap(fatchVievOperation.map);
@@ -69,26 +69,26 @@ public class Task_Viev implements Runnable {
         if (newGame.getCellSize() == 24){
             if (game.getPacMovement() == PacMovement.MOVE_RIGHT) {
                 if (System.currentTimeMillis() % 2 == 0)
-                    setPacmanImage(35, 3);
+                    setPacmanImage(31, 3);
                 else
-                    setPacmanImage(6, 3);
+                    setPacmanImage(5, 3);
             } else if (game.getPacMovement() == PacMovement.MOVE_lEFT) {
                 if (System.currentTimeMillis() % 2 == 0)
-                    setPacmanImage(36, 32);
+                    setPacmanImage(32, 29);
                 else
-                    setPacmanImage(7, 32);
+                    setPacmanImage(6, 29);
             } else if (game.getPacMovement() == PacMovement.MOVE_UP) {
                 if (System.currentTimeMillis() % 2 == 0)
-                    setPacmanImage(35, 62 );
+                    setPacmanImage(32, 56 );
                 else
-                    setPacmanImage(6, 62);
+                    setPacmanImage(6, 56);
             } else if (game.getPacMovement() == PacMovement.MOVE_DOWN) {
                 if (System.currentTimeMillis() % 2 == 0)
-                    setPacmanImage(35, 90);
+                    setPacmanImage(32, 81);
                 else
-                    setPacmanImage(6, 90);
+                    setPacmanImage(6, 81);
             } else {
-                setPacmanImage(65, 3);
+                setPacmanImage(58, 3);
             }
         }else {
             if (game.getPacMovement() == PacMovement.MOVE_RIGHT) {
@@ -122,7 +122,7 @@ public class Task_Viev implements Runnable {
         BufferedImage pacmanTile;
 
         if (newGame.getCellSize() == 24)
-            pacmanTile = tileSet.getSubimage(x, y, 24, 24);
+            pacmanTile = tileSet.getSubimage(x, y, 22, 22);
         else
             pacmanTile = tileSet.getSubimage(x, y, 16, 16);
 

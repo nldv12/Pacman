@@ -30,6 +30,8 @@ public class PacStepOperation extends GameOperation {
         }
 
 
+
+
         if (game.getPacMovement() == PacMovement.MOVE_RIGHT) {
             int nextXposition = (int) (game.pucManX + 1);
             int nextYposition = (int) (game.pucManY);
@@ -59,14 +61,14 @@ public class PacStepOperation extends GameOperation {
     public void movePacman(Game game, int nextXposition, int nextYposition, PacMovement pacMovement) {
         if (game.map[nextYposition][nextXposition] != FieldValue.WALL) {
             switch (pacMovement) {
-//                case MOVE_RIGHT -> game.pucManX += 1;
-//                case MOVE_lEFT -> game.pucManX -= 1;
-//                case MOVE_UP -> game.pucManY -= 1;
-//                case MOVE_DOWN -> game.pucManY += 1;
-                case MOVE_RIGHT -> game.pucManX += deltaTime * pacSpeed;
-                case MOVE_lEFT -> game.pucManX -= deltaTime * pacSpeed;
-                case MOVE_UP -> game.pucManY -= deltaTime * pacSpeed;
-                case MOVE_DOWN -> game.pucManY += deltaTime * pacSpeed;
+                case MOVE_RIGHT -> game.pucManX += 1;
+                case MOVE_lEFT -> game.pucManX -= 1;
+                case MOVE_UP -> game.pucManY -= 1;
+                case MOVE_DOWN -> game.pucManY += 1;
+//                case MOVE_RIGHT -> game.pucManX += deltaTime * pacSpeed;
+//                case MOVE_lEFT -> game.pucManX -= deltaTime * pacSpeed;
+//                case MOVE_UP -> game.pucManY -= deltaTime * pacSpeed;
+//                case MOVE_DOWN -> game.pucManY += deltaTime * pacSpeed;
             }
         } else {
             game.pucManX = (int) game.pucManX + 0.5f;

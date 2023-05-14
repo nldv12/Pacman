@@ -102,16 +102,13 @@ public class NewGame extends JFrame {
         });
 
 
-        /// zwraca nie właściwe znaczenia - znaleźć rozwiązanie
-        realCellSizeY = 582/20f;
-        realCellSizeX = 600/20f;
 
         Rectangle cellRect = table.getCellRect(0, 0, false);
-        Rectangle cellRect2 = table.getCellRect(19, 19, false);
+        Rectangle cellRect2 = table.getCellRect(boardSize-1, boardSize-1, false);
 
-        realCellSizeY = (cellRect2.y - cellRect.y) /(20-1);
-        realCellSizeX = (cellRect2.x - cellRect.x) /(20-1);
-        System.out.println();
+        realCellSizeY = (cellRect2.y - cellRect.y) /(boardSize-1);
+        realCellSizeX = body.getWidth()/boardSize;
+
 
 
     }
@@ -136,10 +133,7 @@ public class NewGame extends JFrame {
     private void createTable(int boardSize) {
         table = new JTable(new CustomTableModel(boardSize));
         table.setCellSelectionEnabled(false);
-
-
         table.setBounds(0, 0, 500, 500);
-
         cellRenderer = new CustomTableCellRenderer(cellSize);
         table.setDefaultRenderer(Object.class, cellRenderer);
         table.setPreferredSize(new Dimension(500, 500));
