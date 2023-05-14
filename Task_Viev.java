@@ -32,28 +32,23 @@ public class Task_Viev implements Runnable {
 
     @Override
     public void run() {
-
         try {
             tileSet = ImageIO.read(new File("src\\p2\\tileSet.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         try {
             while (true) {
-
                 changePacman();
-                changeGhost();
+//                changeGhost();
                 FatchVievOperation fatchVievOperation = new FatchVievOperation();
                 game.performOperation(fatchVievOperation);
                 newGame.updateScore();
 
-                float cellSize = newGame.table.getColumnModel().getColumn(0).getWidth();
-                // co to - 16
-                int result1 = (int) (fatchVievOperation.getPacXposition() * cellSize) - 16;
-                int result2 = (int) (fatchVievOperation.getPacYposition() * cellSize) - 16;
+                int vievPacX = (int) ((int) (fatchVievOperation.getPacXposition() *  newGame.realCellSizeX) - newGame.realCellSizeX/2);
+                int vievPacY = (int) ((int) (fatchVievOperation.getPacYposition() * newGame.realCellSizeY) -  newGame.realCellSizeY/2);
 //                ghostPanel.setBounds(60,60,25, 25);
-                pacmanPanel.setBounds(result1, result2, 24, 24);
+                pacmanPanel.setBounds(vievPacX, vievPacY, (int)newGame.realCellSizeX, (int)newGame.realCellSizeY);
                 newGame.cellRenderer.setMap(fatchVievOperation.map);
 
                 if (newGame.getCountdownPanel().isCountdownFinished()) {
@@ -61,8 +56,7 @@ public class Task_Viev implements Runnable {
                     newGame.dispose();
                     break;
                 }
-
-                Thread.sleep(50);
+                Thread.sleep(20);
             }
 
         } catch (InterruptedException e) {
@@ -73,22 +67,22 @@ public class Task_Viev implements Runnable {
     private void changePacman() {
 
         if (newGame.getCellSize() == 24){
-            if (game.pacMovement == PacMovement.MOVE_RIGHT) {
+            if (game.getPacMovement() == PacMovement.MOVE_RIGHT) {
                 if (System.currentTimeMillis() % 2 == 0)
                     setPacmanImage(35, 3);
                 else
                     setPacmanImage(6, 3);
-            } else if (game.pacMovement == PacMovement.MOVE_lEFT) {
+            } else if (game.getPacMovement() == PacMovement.MOVE_lEFT) {
                 if (System.currentTimeMillis() % 2 == 0)
                     setPacmanImage(36, 32);
                 else
                     setPacmanImage(7, 32);
-            } else if (game.pacMovement == PacMovement.MOVE_UP) {
+            } else if (game.getPacMovement() == PacMovement.MOVE_UP) {
                 if (System.currentTimeMillis() % 2 == 0)
                     setPacmanImage(35, 62 );
                 else
                     setPacmanImage(6, 62);
-            } else if (game.pacMovement == PacMovement.MOVE_DOWN) {
+            } else if (game.getPacMovement() == PacMovement.MOVE_DOWN) {
                 if (System.currentTimeMillis() % 2 == 0)
                     setPacmanImage(35, 90);
                 else
@@ -97,22 +91,22 @@ public class Task_Viev implements Runnable {
                 setPacmanImage(65, 3);
             }
         }else {
-            if (game.pacMovement == PacMovement.MOVE_RIGHT) {
+            if (game.getPacMovement() == PacMovement.MOVE_RIGHT) {
                 if (System.currentTimeMillis() % 2 == 0)
                     setPacmanImage(245, 102);
                 else
                     setPacmanImage(226, 102);
-            } else if (game.pacMovement == PacMovement.MOVE_lEFT) {
+            } else if (game.getPacMovement() == PacMovement.MOVE_lEFT) {
                 if (System.currentTimeMillis() % 2 == 0)
                     setPacmanImage(245, 120);
                 else
                     setPacmanImage(228, 120);
-            } else if (game.pacMovement == PacMovement.MOVE_UP) {
+            } else if (game.getPacMovement() == PacMovement.MOVE_UP) {
                 if (System.currentTimeMillis() % 2 == 0)
                     setPacmanImage(245, 140);
                 else
                     setPacmanImage(227, 140);
-            } else if (game.pacMovement == PacMovement.MOVE_DOWN) {
+            } else if (game.getPacMovement() == PacMovement.MOVE_DOWN) {
                 if (System.currentTimeMillis() % 2 == 0)
                     setPacmanImage(245, 158);
                 else
@@ -138,7 +132,7 @@ public class Task_Viev implements Runnable {
             newGame.table.add(pacmanPanel);
         } else {
             pacmanPanel.setImage(pacmanTile);
-            pacmanPanel.repaint();
+//            pacmanPanel.repaint();
         }
     }
 

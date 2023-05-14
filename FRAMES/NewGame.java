@@ -22,6 +22,8 @@ public class NewGame extends JFrame {
     public CustomTableCellRenderer cellRenderer;
     private Game game;
     private int cellSize;
+    public float realCellSizeX;
+    public float realCellSizeY;
     private int gameTimeInSeconds;
     private int width;
     private int height;
@@ -76,30 +78,7 @@ public class NewGame extends JFrame {
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-    private void fillHeader() {
-//        header.setLayout();
-        JLabel scoreName = new JLabel("Score: ");
-        scoreName.setForeground(Constants.MY_ORANGE);
-        scoreName.setFont(Constants.MY_FONT2);
-        score = new JLabel(game.getPlayerScore() +"   ");
-        score.setForeground(Constants.MY_ORANGE);
-        score.setFont(Constants.MY_FONT2);
-        LivesPanel livesPanel = new LivesPanel(5);
-        JLabel space = new JLabel("      ");
-        countdownPanel = new CountdownPanel(gameTimeInSeconds);
 
-
-
-        header.add(scoreName);
-        header.add(score);
-        header.add(livesPanel);
-        header.add(space);
-        header.add(countdownPanel);
-    }
-    private void createTable(int boardSize) {
-        table = new JTable(new CustomTableModel(boardSize));
-        table.setCellSelectionEnabled(false);
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -119,9 +98,45 @@ public class NewGame extends JFrame {
                     SwingUtilities.invokeLater(() -> new MainMenu(game));
                     dispose();
                 }
-
             }
         });
+
+
+        /// zwraca nie właściwe znaczenia - znaleźć rozwiązanie
+        realCellSizeY = 582/20f;
+        realCellSizeX = 600/20f;
+
+        Rectangle cellRect = table.getCellRect(0, 0, false);
+        Rectangle cellRect2 = table.getCellRect(19, 19, false);
+
+        realCellSizeY = (cellRect2.y - cellRect.y) /(20-1);
+        realCellSizeX = (cellRect2.x - cellRect.x) /(20-1);
+        System.out.println();
+
+
+    }
+    private void fillHeader() {
+//        header.setLayout();
+        JLabel scoreName = new JLabel("Score: ");
+        scoreName.setForeground(Constants.MY_ORANGE);
+        scoreName.setFont(Constants.MY_FONT2);
+        score = new JLabel(game.getPlayerScore() +"   ");
+        score.setForeground(Constants.MY_ORANGE);
+        score.setFont(Constants.MY_FONT2);
+        LivesPanel livesPanel = new LivesPanel(5);
+        JLabel space = new JLabel("      ");
+        countdownPanel = new CountdownPanel(gameTimeInSeconds);
+
+        header.add(scoreName);
+        header.add(score);
+        header.add(livesPanel);
+        header.add(space);
+        header.add(countdownPanel);
+    }
+    private void createTable(int boardSize) {
+        table = new JTable(new CustomTableModel(boardSize));
+        table.setCellSelectionEnabled(false);
+
 
         table.setBounds(0, 0, 500, 500);
 

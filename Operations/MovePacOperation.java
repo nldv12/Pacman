@@ -12,6 +12,6 @@ public class MovePacOperation extends GameOperation{
 
     @Override
     public void doOperation(Game game) {
-        game.pacMovement = direction;
+        game.setNextMove(direction);
     }
 }

@@ -14,25 +14,36 @@ import java.util.*;
 import java.io.File;
 
 public class Game {
-    private int boardSize ;
+    private int boardSize;
     private static final String FILE_NAME = "HighScores.txt";
     public float pucManX;
     public float pucManY;
-    public PacMovement pacMovement;
+
+    private PacMovement pacMovement;
+
+    private PacMovement prevMove;
+    private PacMovement nextMove;
+
+
     public GhostMovement ghostMovement;
 
     public float ghostX;
     public float ghostY;
 
     public FieldValue[][] map;
-
     private int playerScore = 0;
+
+
     public Game(int boardSize) {
         this.boardSize = boardSize;
         map = generatedBoard(boardSize);
         int a = 0;
         int b = 0;
         boolean succes = false;
+//        pucManX = 18.5f;
+//        pucManY = 18.5f;
+
+
         while (!succes) {
             if (map[a][b] == FieldValue.SPACE && map[a][b + 1] == FieldValue.SPACE && map[a][b + 2] == FieldValue.SPACE) {
                 pucManX = a + 0.5f;
@@ -142,7 +153,30 @@ public class Game {
         return playerScore;
     }
 
-//    SETTERS
+    public PacMovement getPacMovement() {
+        return pacMovement;
+    }
+
+    public PacMovement getPrevMove() {
+        return prevMove;
+    }
+
+    public PacMovement getNextMove() {
+        return nextMove;
+    }
+
+    //    SETTERS
+    public void setPrevMove(PacMovement prevMove) {
+        this.prevMove = prevMove;
+    }
+
+    public void setNextMove(PacMovement nextMove) {
+        this.nextMove = nextMove;
+    }
+
+    public void setPacMovement(PacMovement pacMovement) {
+        this.pacMovement = pacMovement;
+    }
 
     public void incPlayerScore(int number) {
         this.playerScore += number;

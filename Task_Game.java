@@ -1,7 +1,6 @@
 package p2;
 
-import p2.Operations.GhostStepOperation;
-import p2.Operations.PacStepOperation;
+import p2.Operations.*;
 
 public class Task_Game implements Runnable {
 
@@ -22,6 +21,7 @@ public class Task_Game implements Runnable {
                 long deltaTime = 100;
                 PacStepOperation pacStepOperation = new PacStepOperation(deltaTime, now);
                 game.performOperation(pacStepOperation);
+
                 GhostStepOperation ghostStepOperation= new GhostStepOperation(deltaTime, now);
                 game.performOperation(ghostStepOperation);
 
