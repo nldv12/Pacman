@@ -21,7 +21,7 @@ public class LivesPanel extends JPanel {
         setBackground(Constants.MY_BLACK);
 
         try {
-            tileSet = ImageIO.read(new File("src\\p2\\tileSet.png"));
+            tileSet = ImageIO.read(new File("tileSet.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

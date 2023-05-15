@@ -8,7 +8,7 @@ public class PacStepOperation extends GameOperation {
     long deltaTime;
     long now;
 
-    double pacSpeed = 0.004;
+    double pacSpeed = 0.005;
 
 
     public PacStepOperation(long deltaTime, long now) {
@@ -24,68 +24,77 @@ public class PacStepOperation extends GameOperation {
         if (restX != 0.5 && restY != 0.5) {
             finishMovement(game);
             game.setPacMovement(game.getNextMove());
-        }else {
+        } else {
             game.setPacMovement(game.getNextMove());
         }
 
 
         if (game.getPacMovement() == PacMovement.MOVE_RIGHT) {
-            int nextXposition = (int) (game.getPucManX() + 1);
-            int nextYposition = (int) (game.getPucManY());
-            handleEating(game, nextXposition, nextYposition);
-            movePacman(game, nextXposition, nextYposition, game.getPacMovement());
+            int nextRowNumber = game.getCurrentRow();
+            int nextColumnNumber = game.getCurrentColumn()+1;
+            handleEating(game, nextRowNumber, nextColumnNumber);
+            movePacman(game, nextRowNumber, nextColumnNumber, game.getPacMovement());
         } else if (game.getPacMovement() == PacMovement.MOVE_lEFT) {
-            int nextXposition = (int) (game.getPucManX() - 1);
-            int nextYposition = (int) (game.getPucManY());
-            handleEating(game, nextXposition, nextYposition);
-            movePacman(game, nextXposition, nextYposition, game.getPacMovement());
+            int nextRowNumber = game.getCurrentRow();
+            int nextColumnNumber = game.getCurrentColumn()-1;
+            handleEating(game, nextRowNumber, nextColumnNumber);
+            movePacman(game, nextRowNumber, nextColumnNumber, game.getPacMovement());
 
         } else if (game.getPacMovement() == PacMovement.MOVE_UP) {
-            int nextXposition = (int) (game.getPucManX());
-            int nextYposition = (int) (game.getPucManY() - 1);
-            handleEating(game, nextXposition, nextYposition);
-            movePacman(game, nextXposition, nextYposition, game.getPacMovement());
+            int nextRowNumber = game.getCurrentRow()-1;
+            int nextColumnNumber = game.getCurrentColumn();
+            handleEating(game, nextRowNumber, nextColumnNumber);
+            movePacman(game, nextRowNumber, nextColumnNumber, game.getPacMovement());
 
         } else if (game.getPacMovement() == PacMovement.MOVE_DOWN) {
-            int nextXposition = (int) (game.getPucManX());
-            int nextYposition = (int) (game.getPucManY() + 1);
-            handleEating(game, nextXposition, nextYposition);
-            movePacman(game, nextXposition, nextYposition, game.getPacMovement());
-
+            int nextRowNumber = game.getCurrentRow()+1;
+            int nextColumnNumber = game.getCurrentColumn();
+            handleEating(game, nextRowNumber, nextColumnNumber);
+            movePacman(game, nextRowNumber, nextColumnNumber, game.getPacMovement());
         }
     }
 
-    public void movePacman(Game game, int nextXposition, int nextYposition, PacMovement pacMovement) {
-        if (game.map[nextYposition][nextXposition] != FieldValue.WALL) {
+    public void movePacman(Game game, int nextRowNumber, int nextColumnNumber, PacMovement pacMovement) {
+        if (game.map[nextRowNumber][nextColumnNumber] != FieldValue.WALL) {
             switch (pacMovement) {
                 case MOVE_RIGHT -> game.setPucManX(game.getPucManX() + 1);
                 case MOVE_lEFT -> game.setPucManX(game.getPucManX() - 1);
                 case MOVE_UP -> game.setPucManY(game.getPucManY() - 1);
                 case MOVE_DOWN -> game.setPucManY(game.getPucManY() + 1);
-//                case MOVE_RIGHT -> game.pucManX += deltaTime * pacSpeed;
-//                case MOVE_lEFT -> game.pucManX -= deltaTime * pacSpeed;
-//                case MOVE_UP -> game.pucManY -= deltaTime * pacSpeed;
-//                case MOVE_DOWN -> game.pucManY += deltaTime * pacSpeed;
+
+
+//                case MOVE_RIGHT -> game.setPucManX(game.getPucManX() + (float) (deltaTime * pacSpeed));
+//                case MOVE_lEFT -> game.setPucManX(game.getPucManX() - (float) (deltaTime * pacSpeed));
+//                case MOVE_UP -> game.setPucManY(game.getPucManY() - (float) (deltaTime * pacSpeed));
+//                case MOVE_DOWN -> game.setPucManY(game.getPucManY() + (float) (deltaTime * pacSpeed));
             }
+            int row = game.getCurrentRow();
+            int column = game.getCurrentColumn();
+            game.setCurrentRow(nextRowNumber);
+            game.setCurrentColumn(nextColumnNumber);
+            row = game.getCurrentRow();
+            column = game.getCurrentColumn();
+            System.out.println();
         } else {
             finishMovement(game);
             game.setPacMovement(PacMovement.STAY);
         }
     }
-    public void finishMovement(Game game){
+
+    public void finishMovement(Game game) {
         game.setPucManX((int) game.getPucManX() + 0.5f);
         game.setPucManY((int) game.getPucManY() + 0.5f);
     }
 
-    public void handleEating(Game game, int nextXposition, int nextYposition) {
-        if (game.map[nextYposition][nextXposition] == FieldValue.DOT) {
+    public void handleEating(Game game, int nextRowNumber, int nextColumnNumber) {
+        if (game.map[nextRowNumber][nextColumnNumber] == FieldValue.DOT) {
             game.incPlayerScore(1);
             game.decDotCount();
-            game.map[nextYposition][nextXposition] = FieldValue.SPACE;
-        } else if (game.map[nextYposition][nextXposition] == FieldValue.BIG_DOT) {
+            game.map[nextRowNumber][nextColumnNumber] = FieldValue.SPACE;
+        } else if (game.map[nextRowNumber][nextColumnNumber] == FieldValue.BIG_DOT) {
             game.incPlayerScore(10);
             game.decBigDotCount();
-            game.map[nextYposition][nextXposition] = FieldValue.SPACE;
+            game.map[nextRowNumber][nextColumnNumber] = FieldValue.SPACE;
         }
     }
 

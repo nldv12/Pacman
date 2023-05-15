@@ -37,7 +37,7 @@ public class CountdownPanel extends JPanel {
         JPanel timeImagePanel = new JPanel(new BorderLayout());
         timeImagePanel.setOpaque(false);
         try {
-            tileSet = ImageIO.read(new File("src\\p2\\tileSet.png"));
+            tileSet = ImageIO.read(new File("tileSet.png"));
             timeTile = tileSet.getSubimage(302, 65, 27, 27);
             JLabel imageLabel = new JLabel(new ImageIcon(timeTile));
             timeImagePanel.add(imageLabel, BorderLayout.EAST);

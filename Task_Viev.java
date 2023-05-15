@@ -32,7 +32,7 @@ public class Task_Viev implements Runnable {
     @Override
     public void run() {
         try {
-            tileSet = ImageIO.read(new File("src\\p2\\tileSet.png"));
+            tileSet = ImageIO.read(new File("tileSet.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -43,21 +43,16 @@ public class Task_Viev implements Runnable {
                 FatchVievOperation fatchVievOperation = new FatchVievOperation();
                 game.performOperation(fatchVievOperation);
                 newGame.updateScore();
-
-                int vievPacX = (int) ((fatchVievOperation.getPacXposition() * newGame.realCellSizeX) - newGame.realCellSizeX / 2);
-                int vievPacY = (int) ((fatchVievOperation.getPacYposition() * newGame.realCellSizeY) - newGame.realCellSizeY / 2);
 //                ghostPanel.setBounds(60,60,25, 25);
-                pacmanPanel.setBounds(vievPacX, vievPacY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
+
+
+                showPacman(fatchVievOperation);
+
                 newGame.cellRenderer.setMap(fatchVievOperation.map);
-
-                int dots = game.getDotCount();
-                int bigdots = game.getBigDotCount();
-
-
 
 
                 boolean outOfTime = newGame.getCountdownPanel().isCountdownFinished();
-                boolean ateAllDots = game.getBigDotCount() == 3 && game.getDotCount() == 0;
+                boolean ateAllDots = game.getBigDotCount() == 0 && game.getDotCount() == 0;
 
                 if (outOfTime || ateAllDots) {
                     if (outOfTime)
@@ -78,6 +73,35 @@ public class Task_Viev implements Runnable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void showPacman(FatchVievOperation fatchVievOperation) {
+
+        int row = game.getCurrentRow();
+        int column = game.getCurrentColumn();
+
+
+//        if (restX != 0.5 && restY != 0.5) {
+//        int vievPacX = (int) ((fatchVievOperation.getPacXposition() * newGame.realCellSizeX) - newGame.realCellSizeX / 2);
+//        int vievPacY = (int) ((fatchVievOperation.getPacYposition() * newGame.realCellSizeY) - newGame.realCellSizeY / 2);
+//        pacmanPanel.setBounds(vievPacX, vievPacY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
+
+//        Rectangle cellRect = newGame.table.getCellRect(row, column, true);
+//
+//        int vievPacX = (int) ((fatchVievOperation.getPacXposition() * cellRect.width) - cellRect.width / 2);
+//        int vievPacY = (int) ((fatchVievOperation.getPacYposition() * cellRect.height) - cellRect.height / 2);
+//        pacmanPanel.setBounds(vievPacX, vievPacY, cellRect.width, cellRect.height);
+
+
+
+//        }else {
+            Rectangle cellRect = newGame.table.getCellRect(row, column, true);
+            int cellX = cellRect.x;
+            int cellY = cellRect.y;
+            pacmanPanel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
+//        }
+
+
     }
 
     private void changePacman() {

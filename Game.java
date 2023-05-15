@@ -15,6 +15,9 @@ public class Game {
     private int boardSize;
 
 
+
+    private int currentRow;
+    private int currentColumn;
     private int dotCount;
     private int bigDotCount;
     private static final String FILE_NAME = "HighScores.txt";
@@ -50,6 +53,8 @@ public class Game {
             if (map[a][b] == FieldValue.SPACE && map[a][b + 1] == FieldValue.SPACE && map[a][b + 2] == FieldValue.SPACE && map[a][b + 3] == FieldValue.SPACE) {
                 pucManX = a + 0.5f;
                 pucManY = b + 0.5f;
+                setCurrentRow(a);
+                setCurrentColumn(b);
                 succes = true;
             } else {
                 if (b == boardSize - 1) {
@@ -118,6 +123,7 @@ public class Game {
             if (board[i][j] == FieldValue.DOT) {
                 board[i][j] = FieldValue.BIG_DOT;
                 bigDotCount++;
+                dotCount--;
             }
         }
 
@@ -209,9 +215,26 @@ public class Game {
         return bigDotCount;
     }
 
+    public int getCurrentRow() {
+        return currentRow;
+    }
+
+    public int getCurrentColumn() {
+        return currentColumn;
+    }
+
+
+
 
     //    SETTERS ==============================================================
 
+    public void setCurrentRow(int currentRow) {
+        this.currentRow = currentRow;
+    }
+
+    public void setCurrentColumn(int currentColumn) {
+        this.currentColumn = currentColumn;
+    }
     public void decDotCount() {
         this.dotCount--;
     }

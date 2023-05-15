@@ -103,12 +103,12 @@ public class NewGame extends JFrame {
         });
 
 
-
-        Rectangle cellRect = table.getCellRect(0, 0, false);
-        Rectangle cellRect2 = table.getCellRect(boardSize-1, boardSize-1, false);
-
-        realCellSizeY = (cellRect2.y - cellRect.y) /(boardSize-1);
-        realCellSizeX = body.getWidth()/boardSize;
+//
+//        Rectangle cellRect = table.getCellRect(0, 0, false);
+//        Rectangle cellRect2 = table.getCellRect(boardSize-1, boardSize-1, false);
+//
+//        realCellSizeY = (cellRect2.y - cellRect.y) /(boardSize-1);
+//        realCellSizeX = body.getWidth()/boardSize;
 
 
 //        int totalWidth = 0;

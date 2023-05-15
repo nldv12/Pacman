@@ -28,7 +28,7 @@ public class CustomTableCellRenderer extends DefaultTableCellRenderer {
         setVerticalAlignment(JLabel.CENTER);
 
         try {
-            BufferedImage tileSet = ImageIO.read(new File("src\\p2\\tileSet.png"));
+            BufferedImage tileSet = ImageIO.read(new File("tileSet.png"));
             if (cellSize == 16) {
                 wallImage = tileSet.getSubimage(304, 105, 16, 16);
                 dotImage = tileSet.getSubimage(377, 43, 16, 16);
