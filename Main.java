@@ -7,7 +7,7 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        int boardSize = 12;
+        int boardSize = 90;
         Game game = new Game(boardSize);
 //        SwingUtilities.invokeLater(() -> new MainMenu(game));
 //        SwingUtilities.invokeLater(() -> new HighScores(game));
