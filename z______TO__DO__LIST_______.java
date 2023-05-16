@@ -4,16 +4,18 @@ public class z______TO__DO__LIST_______ {
 
     /*
 
-    dlaczego liczby na pucmanie
-    duchy
 
     ------------- Ulepszenia -----------
         przeciwnicy raz na 5 sekund z prawdopodobieństwem 25% tworzą ulepszenia (np.
         +50% prędkości poruszania się itp.), które gracz może zebrać. Zaimplementuj min. 5 różnych
         niebanalnych ulepszeń.
 
-    ---- licznik żyć
-
+        ---- działanie ulepszeń
+            ---- zamrożenie duchów
+            ---- superSpeed
+            ---- duchyZjadalne
+            ---- dodatkowe 20 sek
+            ---- invisibleMode
 
     Must Have :
     ---- Wszystkie wyjątki mają być obsłużone odpowiednimi komunikatami

@@ -52,7 +52,7 @@ public class Task_Viev implements Runnable {
 
 
                 showPacman(fatchVievOperation);
-                showGhosts(fatchVievOperation);
+                showGhosts();
 
                 newGame.cellRenderer.setMap(fatchVievOperation.map);
 
@@ -63,81 +63,66 @@ public class Task_Viev implements Runnable {
                     initialRepainted = true;
                 }
 
+                UIManager.put("OptionPane.background", Color.BLACK);
+                UIManager.put("OptionPane.messageBackground", Color.BLACK);
+                UIManager.put("OptionPane.messageForeground", Constants.MY_ORANGE);
+                UIManager.put("OptionPane.messageFont", Constants.MY_FONT2);
+                UIManager.put("OptionPane.messageFont", Constants.MY_FONT2);
+                UIManager.put("Panel.background", Color.BLACK);
+                UIManager.put("Button.background", Constants.MY_BLACK);
+                UIManager.put("Button.foreground", Constants.MY_ORANGE);
+
                 boolean outOfTime = newGame.getCountdownPanel().isCountdownFinished();
                 boolean ateAllDots = game.getBigDotCount() == 0 && game.getDotCount() == 0;
                 boolean dead = game.isPacmanDead();
+                int livesLeft = newGame.getLivesPanel().getHeartCount();
+                boolean endOfLives = livesLeft == 0;
 
 
-                if (outOfTime || ateAllDots || dead) {
-                    UIManager.put("OptionPane.background", Color.BLACK);
-                    UIManager.put("OptionPane.messageBackground", Color.BLACK);
-                    UIManager.put("OptionPane.messageForeground", Constants.MY_ORANGE);
-                    UIManager.put("OptionPane.messageFont", Constants.MY_FONT2);
-                    UIManager.put("Panel.background", Color.BLACK);
-                    UIManager.put("Button.background", Constants.MY_BLACK);
-                    UIManager.put("Button.foreground", Constants.MY_ORANGE);
+                if (dead && !endOfLives ){
+                    newGame.getLivesPanel().decHeartCount();
+                    livesLeft = newGame.getLivesPanel().getHeartCount();
+                    newGame.getLivesPanel().repaint();
+                    if (livesLeft!=0){
+                        JOptionPane.showMessageDialog(null, "Przykro mi, zostałeś zjedzony, pozostała ilość żyć: " + livesLeft, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                        game.setPacmanDead(false);
+                        game.setPacMovement(PacMovement.STAY);
+                        game.setNextMove(PacMovement.STAY);
+                        game.placePacman();
+                    }
+                }
+
+
+
+
+                if (outOfTime || ateAllDots || endOfLives) {
                     if (outOfTime)
                         JOptionPane.showMessageDialog(null, "Skończył ci się czas, ale możesz zapisać swój wynnik", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                     if (ateAllDots)
                         JOptionPane.showMessageDialog(null, "Brawo! Wygrałeś - możesz zapisać swój wynnik", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-                    if (dead)
-                        JOptionPane.showMessageDialog(null, "Przykro mi, zostałeś zjedzony, ale możesz zapisać swój wynnik", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                    if (endOfLives)
+                        JOptionPane.showMessageDialog(null, "Przykro mi, zostałeś zjedzony i skończyły ci się życia\nmożesz zapisać swój wynnik", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+
                     SwingUtilities.invokeLater(() -> new ChoosePlayerName(game, game.getPlayerScore()));
                     newGame.dispose();
                     break;
                 }
-
-
                 Thread.sleep(20);
             }
-
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void showPacman(FatchVievOperation fatchVievOperation) {
-//
-//        int row = game.getCurrentRow();
-//        int column = game.getCurrentColumn();
-
-
-//        if (restX != 0.5 && restY != 0.5) {
-        int cell1IndexX = (int)(game.getPucManX() - 0.5);
-        int cell2IndexX = (int)(game.getPucManX() - 0.5)+1;
-        int cell1IndexY = (int)(game.getPucManY() - 0.5);
-        int cell2IndexY = (int)(game.getPucManY() - 0.5)+1;
-
-
-        Rectangle cellRect = newGame.table.getCellRect(0, 0, false);
-
-
-
-//        int centreX = newGame.table.ge
-
-
         int vievPacX = (int) ((fatchVievOperation.getPacXposition() * newGame.realCellSizeX) - newGame.realCellSizeX / 2);
         int vievPacY = (int) ((fatchVievOperation.getPacYposition() * newGame.realCellSizeY) - newGame.realCellSizeY / 2);
         pacmanPanel.setBounds(vievPacX, vievPacY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
 
-//        Rectangle cellRect = newGame.table.getCellRect(row, column, true);
-//
-//        int vievPacX = (int) ((fatchVievOperation.getPacXposition() * cellRect.width) - cellRect.width / 2);
-//        int vievPacY = (int) ((fatchVievOperation.getPacYposition() * cellRect.height) - cellRect.height / 2);
-//        pacmanPanel.setBounds(vievPacX, vievPacY, cellRect.width, cellRect.height);
-
-
-
-//        }else {
-//            Rectangle cellRect = newGame.table.getCellRect(row, column, true);
-//            int cellX = cellRect.x;
-//            int cellY = cellRect.y;
-//            pacmanPanel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
-//        }
-
 
     }
-    private void showGhosts(FatchVievOperation fatchVievOperation) {
+    private void showGhosts() {
         game.ghosts.forEach((id, ghost) -> {
 
             int vievGhostX = (int) ((ghost.getGhostX() * newGame.realCellSizeX) - newGame.realCellSizeX / 2);
@@ -148,31 +133,7 @@ public class Task_Viev implements Runnable {
                 case 2 -> ghost2Panel.setBounds(vievGhostX, vievGhostY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
                 case 3 -> ghost3Panel.setBounds(vievGhostX, vievGhostY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
             }
-
-
-//            pacmanPanel.setBounds(vievGhostX, vievGhostY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
-
-
-
-
-
-//            int row = ghost.getGhostCurrentRow();
-//            int column = ghost.getGhostCurrentColumn();
-//
-//            Rectangle cellRect = newGame.table.getCellRect(row, column, true);
-//            int cellX = cellRect.x;
-//            int cellY = cellRect.y;
-//
-//            switch (id) {
-//                case 0 -> ghost0Panel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
-//                case 1 -> ghost1Panel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
-//                case 2 -> ghost2Panel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
-//                case 3 -> ghost3Panel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
-//            }
-
         });
-
-
     }
 
     private void changePacman() {
@@ -185,21 +146,21 @@ public class Task_Viev implements Runnable {
                     setPacmanImage(5, 3);
             } else if (game.getPacMovement() == PacMovement.MOVE_lEFT) {
                 if (System.currentTimeMillis() % 2 == 0)
-                    setPacmanImage(32, 29);
+                    setPacmanImage(32, 28);
                 else
-                    setPacmanImage(6, 29);
+                    setPacmanImage(6, 28);
             } else if (game.getPacMovement() == PacMovement.MOVE_UP) {
                 if (System.currentTimeMillis() % 2 == 0)
-                    setPacmanImage(32, 56);
+                    setPacmanImage(31, 55);
                 else
-                    setPacmanImage(6, 56);
+                    setPacmanImage(6, 55);
             } else if (game.getPacMovement() == PacMovement.MOVE_DOWN) {
                 if (System.currentTimeMillis() % 2 == 0)
-                    setPacmanImage(32, 81);
+                    setPacmanImage(32, 80);
                 else
-                    setPacmanImage(6, 81);
+                    setPacmanImage(6, 80);
             } else {
-                setPacmanImage(58, 3);
+                setPacmanImage(57, 3);
             }
         } else {
             if (game.getPacMovement() == PacMovement.MOVE_RIGHT) {
@@ -211,7 +172,7 @@ public class Task_Viev implements Runnable {
                 if (System.currentTimeMillis() % 2 == 0)
                     setPacmanImage(245, 120);
                 else
-                    setPacmanImage(228, 120);
+                    setPacmanImage(227, 120);
             } else if (game.getPacMovement() == PacMovement.MOVE_UP) {
                 if (System.currentTimeMillis() % 2 == 0)
                     setPacmanImage(245, 140);
@@ -248,18 +209,37 @@ public class Task_Viev implements Runnable {
     }
 
     private void changeGhost() {
-        if (ispowerUp) {
-            setGhostImage( 69, 132);
-        } else {
-            if (System.currentTimeMillis() - lastImageChangeTime >= 500) {
-                if (System.currentTimeMillis() % 2 == 0) {
-                    setGhostImage( 6, 132);
-                } else {
-                    setGhostImage( 38, 132);
+        if (newGame.getCellSize() == 24) {
+            if (ispowerUp) {
+                setGhostImage( 69, 132);
+            } else {
+                if (System.currentTimeMillis() - lastImageChangeTime >= 500) {
+                    if (System.currentTimeMillis() % 2 == 0) {
+                        setGhostImage( 6, 132);
+                    } else {
+                        setGhostImage( 38, 132);
+                    }
+                    lastImageChangeTime = System.currentTimeMillis();
                 }
-                lastImageChangeTime = System.currentTimeMillis();
             }
+        }else {
+            if (ispowerUp) {
+                setGhostImage( 43, 168);
+            } else {
+                if (System.currentTimeMillis() - lastImageChangeTime >= 500) {
+                    if (System.currentTimeMillis() % 2 == 0) {
+                        setGhostImage( 5, 168);
+                    } else {
+                        setGhostImage( 24, 168);
+                    }
+                    lastImageChangeTime = System.currentTimeMillis();
+                }
+            }
+
         }
+
+
+
     }
 
     public void setGhostImage( int x, int y) {

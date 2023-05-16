@@ -26,9 +26,9 @@ public class LivesPanel extends JPanel {
             e.printStackTrace();
         }
 
-        heartTile = tileSet.getSubimage(268, 65, 27, 27);
+        heartTile = tileSet.getSubimage(270, 67, 22, 22);
 
-        setPreferredSize(new Dimension(heartCount * 27, 27));
+        setPreferredSize(new Dimension(heartCount * 22, 22));
     }
 
     @Override
@@ -36,7 +36,18 @@ public class LivesPanel extends JPanel {
         super.paintComponent(g);
 
         for (int i = 0; i < heartCount; i++) {
-            g.drawImage(heartTile, i * 27, 0, null);
+            g.drawImage(heartTile, i * 22, 0, null);
         }
     }
+
+
+    public int getHeartCount() {
+        return heartCount;
+    }
+
+    public void decHeartCount() {
+        this.heartCount --;
+    }
+
+
 }

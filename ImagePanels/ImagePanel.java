@@ -9,17 +9,19 @@ public class ImagePanel extends JPanel {
 
     public ImagePanel(BufferedImage image) {
         this.image = image;
-        this.setBackground(Color.CYAN);
-        this.setForeground(Color.CYAN);
+
+
     }
 
     public void setImage(BufferedImage image) {
         this.image = image;
+
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        
 
         g.drawImage(image, 0, 0, null);// stretch image to cellSize
     }

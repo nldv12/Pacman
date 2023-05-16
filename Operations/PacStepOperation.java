@@ -6,14 +6,12 @@ import p2.Game;
 
 public class PacStepOperation extends GameOperation {
     long deltaTime;
-    long now;
 
     double pacSpeed = 0.005;
 
 
-    public PacStepOperation(long deltaTime, long now) {
+    public PacStepOperation(long deltaTime) {
         this.deltaTime = deltaTime;
-        this.now = now;
     }
 
     @Override
@@ -92,6 +90,28 @@ public class PacStepOperation extends GameOperation {
             game.decBigDotCount();
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
+        else if (game.map[nextYposition][nextXposition] == FieldValue.CHERRY) {
+
+            game.map[nextYposition][nextXposition] = FieldValue.SPACE;
+        }
+        else if (game.map[nextYposition][nextXposition] == FieldValue.STRAWBERRY) {
+
+            game.map[nextYposition][nextXposition] = FieldValue.SPACE;
+        }
+        else if (game.map[nextYposition][nextXposition] == FieldValue.ORANGE) {
+
+            game.map[nextYposition][nextXposition] = FieldValue.SPACE;
+        }
+        else if (game.map[nextYposition][nextXposition] == FieldValue.APPLE) {
+
+            game.map[nextYposition][nextXposition] = FieldValue.SPACE;
+        }
+        else if (game.map[nextYposition][nextXposition] == FieldValue.TIME) {
+
+
+            game.map[nextYposition][nextXposition] = FieldValue.SPACE;
+        }
+
     }
 
 
