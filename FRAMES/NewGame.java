@@ -3,16 +3,21 @@ package p2.FRAMES;
 import p2.*;
 import p2.Enums.PacMovement;
 import p2.ImagePanels.CountdownPanel;
+import p2.ImagePanels.ImagePanel;
 import p2.ImagePanels.LivesPanel;
 import p2.Models.CustomTableCellRenderer;
 import p2.Models.CustomTableModel;
 import p2.Operations.MovePacOperation;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class NewGame extends JFrame {
     private int width;
@@ -23,8 +28,8 @@ public class NewGame extends JFrame {
     private JPanel header = new JPanel();
     private JLabel score;
 
-
-    private LivesPanel livesPanel;
+    private ImagePanel livesPanel;
+    private JLabel livesNumber;
     private CountdownPanel countdownPanel;
     private JPanel body;
 
@@ -42,7 +47,6 @@ public class NewGame extends JFrame {
     private int cellSize;
     private boolean isBigMap;
     private int gameTimeInSeconds;
-    int livesCount;
 
 
     //OTHER
@@ -50,11 +54,10 @@ public class NewGame extends JFrame {
     public float realCellSizeX;
     public float realCellSizeY;
 
-    public NewGame(Game game, int boardSize, int gameTimeInSeconds, int livesCount) {
+    public NewGame(Game game, int boardSize, int gameTimeInSeconds) {
         this.game = game;
         this.boardSize = boardSize;
         this.gameTimeInSeconds = gameTimeInSeconds;
-        this.livesCount = livesCount;
 
 
         if (boardSize < 30) {
@@ -144,16 +147,39 @@ public class NewGame extends JFrame {
         JLabel scoreName = new JLabel("Score: ");
         scoreName.setForeground(Constants.MY_ORANGE);
         scoreName.setFont(Constants.MY_FONT2);
+
         score = new JLabel(game.getPlayerScore() +"   ");
         score.setForeground(Constants.MY_ORANGE);
         score.setFont(Constants.MY_FONT2);
-        livesPanel = new LivesPanel(livesCount);
+
+        BufferedImage tileSet = null;
+        BufferedImage heartTile;
+
+        try {
+            tileSet = ImageIO.read(new File("tileSet.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        heartTile = tileSet.getSubimage(270, 66, 22, 22);
+
+
+        livesPanel = new ImagePanel(heartTile);
+        livesPanel.setPreferredSize(new Dimension(25,25));
+        livesPanel.setBackground(Constants.MY_BLACK);
+//        livesPanel = new LivesPanel();
+
+        livesNumber = new JLabel(game.getLivesCount() +"  ");
+        livesNumber.setForeground(Constants.MY_ORANGE);
+        livesNumber.setFont(Constants.MY_FONT2);
+
         JLabel space = new JLabel("   ");
         countdownPanel = new CountdownPanel(gameTimeInSeconds);
 
         header.add(scoreName);
         header.add(score);
         header.add(livesPanel);
+        header.add(livesNumber);
+
         if (boardSize>=15) {
             header.add(space);
             header.add(countdownPanel);
@@ -182,16 +208,17 @@ public class NewGame extends JFrame {
         return countdownPanel;
     }
 
-    public LivesPanel getLivesPanel() {
-        return livesPanel;
-    }
-
     public void updateScore(){
         score.setText(game.getPlayerScore()+"   ");
     }
+    public void updateLivesNumber(){
+        livesNumber.setText(game.getLivesCount()+"  ");
+    }
+
     public int getCellSize() {
         return cellSize;
     }
+
 
 }
 

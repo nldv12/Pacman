@@ -14,7 +14,7 @@ public class Main {
 //        SwingUtilities.invokeLater(() -> new ChoosePlayerName(game,50));
 //        SwingUtilities.invokeLater(() -> new ChooseBoardSize());
         SwingUtilities.invokeLater(() -> {// do usunięcia (ale najpierw zamień w ChooseBoardSize)
-            NewGame newGame = new NewGame(game,boardSize,300,5);
+            NewGame newGame = new NewGame(game,boardSize,300);
             Task_Viev task_viev = new Task_Viev(newGame,game);
             Thread viev = new Thread(task_viev);
             viev.start();

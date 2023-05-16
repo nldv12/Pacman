@@ -24,7 +24,7 @@ public class Task_Viev implements Runnable {
     public ImagePanel ghost1Panel;
     public ImagePanel ghost2Panel;
     public ImagePanel ghost3Panel;
-    boolean ispowerUp = false;
+
     boolean initialRepainted;
     long lastImageChangeTime;
 
@@ -48,6 +48,7 @@ public class Task_Viev implements Runnable {
                 FatchVievOperation fatchVievOperation = new FatchVievOperation();
                 game.performOperation(fatchVievOperation);
                 newGame.updateScore();
+                newGame.updateLivesNumber();
 //                ghostPanel.setBounds(60,60,25, 25);
 
 
@@ -75,14 +76,13 @@ public class Task_Viev implements Runnable {
                 boolean outOfTime = newGame.getCountdownPanel().isCountdownFinished();
                 boolean ateAllDots = game.getBigDotCount() == 0 && game.getDotCount() == 0;
                 boolean dead = game.isPacmanDead();
-                int livesLeft = newGame.getLivesPanel().getHeartCount();
+                int livesLeft = game.getLivesCount();
                 boolean endOfLives = livesLeft == 0;
 
 
                 if (dead && !endOfLives ){
-                    newGame.getLivesPanel().decHeartCount();
-                    livesLeft = newGame.getLivesPanel().getHeartCount();
-                    newGame.getLivesPanel().repaint();
+                    game.decLivesCount();
+                    livesLeft = game.getLivesCount();
                     if (livesLeft!=0){
                         JOptionPane.showMessageDialog(null, "Przykro mi, zostałeś zjedzony, pozostała ilość żyć: " + livesLeft, "Game Over", JOptionPane.INFORMATION_MESSAGE);
                         game.setPacmanDead(false);
@@ -123,6 +123,17 @@ public class Task_Viev implements Runnable {
 
     }
     private void showGhosts() {
+
+        if (!game.ghosts.containsKey(0))
+            ghost0Panel.setBounds(0, 0, 0, 0);
+         if (!game.ghosts.containsKey(1))
+            ghost1Panel.setBounds(0, 0, 0, 0);
+         if (!game.ghosts.containsKey(2))
+            ghost2Panel.setBounds(0, 0, 0, 0);
+         if (!game.ghosts.containsKey(3))
+            ghost3Panel.setBounds(0, 0, 0, 0);
+
+
         game.ghosts.forEach((id, ghost) -> {
 
             int vievGhostX = (int) ((ghost.getGhostX() * newGame.realCellSizeX) - newGame.realCellSizeX / 2);
@@ -210,7 +221,7 @@ public class Task_Viev implements Runnable {
 
     private void changeGhost() {
         if (newGame.getCellSize() == 24) {
-            if (ispowerUp) {
+            if (game.isPowerUp()) {
                 setGhostImage( 69, 132);
             } else {
                 if (System.currentTimeMillis() - lastImageChangeTime >= 500) {
@@ -223,7 +234,7 @@ public class Task_Viev implements Runnable {
                 }
             }
         }else {
-            if (ispowerUp) {
+            if (game.isPowerUp()) {
                 setGhostImage( 43, 168);
             } else {
                 if (System.currentTimeMillis() - lastImageChangeTime >= 500) {

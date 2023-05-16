@@ -1,13 +1,17 @@
 package p2.Operations;
 
 import p2.Enums.FieldValue;
+import p2.Enums.GhostMovement;
 import p2.Enums.PacMovement;
+import p2.FRAMES.NewGame;
 import p2.Game;
+import p2.ImagePanels.LivesPanel;
 
 public class PacStepOperation extends GameOperation {
     long deltaTime;
 
-    double pacSpeed = 0.005;
+    double pacSpeed ;
+
 
 
     public PacStepOperation(long deltaTime) {
@@ -16,6 +20,9 @@ public class PacStepOperation extends GameOperation {
 
     @Override
     public void doOperation(Game game) {
+        this.pacSpeed = game.getPacSpeed();
+
+
         float restY = (game.getPucManY() - (int) game.getPucManY());
         float restX = (game.getPucManX() - (int) game.getPucManX());
 
@@ -91,24 +98,29 @@ public class PacStepOperation extends GameOperation {
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
         else if (game.map[nextYposition][nextXposition] == FieldValue.CHERRY) {
-
+            game.setSpeedHigher(true);
+            game.setBefore10Seconds(System.currentTimeMillis());
+            game.setPacSpeed(0.009);
+            game.setIspowerUp(true);
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
         else if (game.map[nextYposition][nextXposition] == FieldValue.STRAWBERRY) {
-
+            game.incLivesCount();
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
         else if (game.map[nextYposition][nextXposition] == FieldValue.ORANGE) {
-
+            game.ghosts.forEach((id, ghost) -> ghost.setGhostMove(GhostMovement.STAY));
+            game.setBefore10Seconds(System.currentTimeMillis());
+            game.setGhostsFrozen(true);
+            game.setIspowerUp(true);
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
         else if (game.map[nextYposition][nextXposition] == FieldValue.APPLE) {
-
+            game.incPlayerScore(20);
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
         else if (game.map[nextYposition][nextXposition] == FieldValue.TIME) {
-
-
+//            TODO: sdsdsdsdsd
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
 

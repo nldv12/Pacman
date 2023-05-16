@@ -10,6 +10,8 @@ public class Ghost {
 
 
 
+
+
     private float ghostX;
     private float ghostY;
 

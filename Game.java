@@ -1,7 +1,6 @@
 package p2;
 
 import p2.Enums.FieldValue;
-import p2.Enums.GhostMovement;
 import p2.Enums.PacMovement;
 import p2.Operations.GameOperation;
 
@@ -12,6 +11,7 @@ import java.util.*;
 import java.io.File;
 
 public class Game {
+    public int test = 9;
     // BOARD
     private int boardSize;
     private int dotCount;
@@ -19,6 +19,10 @@ public class Game {
     private static final String FILE_NAME = "HighScores.txt";
     public FieldValue[][] map;
     private int playerScore = 0;
+
+
+
+    private int livesCount = 4;
 
 
     //PACMAN
@@ -29,14 +33,26 @@ public class Game {
     private int currentRow;
     private int currentColumn;
 
-
-
     private boolean pacmanDead;
-
-
 
     private float pucManY;
     private float pucManX;
+
+    private double pacSpeed = 0.005;
+
+    private long before10Seconds;
+
+
+
+
+    // POWER_UPS
+    private boolean ispowerUp = false;
+    private boolean isSpeedHigher;
+    private boolean isGhostsFrozen;
+
+
+
+    boolean isPacmanInvisible;
 
 
     public Map<Integer, Ghost> ghosts = new LinkedHashMap<>();
@@ -243,11 +259,57 @@ public class Game {
     public boolean isPacmanDead() {
         return pacmanDead;
     }
+    public double getPacSpeed() {
+        return pacSpeed;
+    }
+    public boolean isSpeedHigher() {
+        return isSpeedHigher;
+    }
+    public long getBefore10Seconds() {
+        return before10Seconds;
+    }
+    public boolean isPowerUp() {
+        return ispowerUp;
+    }
 
+    public void setIspowerUp(boolean ispowerUp) {
+        this.ispowerUp = ispowerUp;
+    }
+    public boolean isGhostsFrozen() {
+        return isGhostsFrozen;
+    }
 
+    public boolean isPacmanInvisible() {
+        return isPacmanInvisible;
+    }
 
+    public int getLivesCount() {
+        return livesCount;
+    }
 
     //    SETTERS ==============================================================
+    public void decLivesCount() {
+        this.livesCount --;
+    }
+    public void incLivesCount() {
+        this.livesCount ++;
+    }
+    public void setPacmanInvisible(boolean pacmanInvisible) {
+        isPacmanInvisible = pacmanInvisible;
+    }
+    public void setGhostsFrozen(boolean ghostsFrozen) {
+        isGhostsFrozen = ghostsFrozen;
+    }
+
+    public void setBefore10Seconds(long before20Seconds) {
+        this.before10Seconds = before20Seconds;
+    }
+    public void setSpeedHigher(boolean speedHigher) {
+        isSpeedHigher = speedHigher;
+    }
+    public void setPacSpeed(double pacSpeed) {
+        this.pacSpeed = pacSpeed;
+    }
 
     public void setPacmanDead(boolean pacmanDead) {
         this.pacmanDead = pacmanDead;

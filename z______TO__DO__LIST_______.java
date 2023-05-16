@@ -11,11 +11,15 @@ public class z______TO__DO__LIST_______ {
         niebanalnych ulepszeń.
 
         ---- działanie ulepszeń
-            ---- zamrożenie duchów
-            ---- superSpeed
             ---- duchyZjadalne
+            ++++ zamrożenie duchów
+            ++++ superSpeed
             ---- dodatkowe 20 sek
-            ---- invisibleMode
+            ---- extraLive
+            ++++ więcej punktów
+
+
+            kiedy sup to timer 20 sek na dole
 
     Must Have :
     ---- Wszystkie wyjątki mają być obsłużone odpowiednimi komunikatami

@@ -51,7 +51,7 @@ public class ChooseBoardSize extends JFrame {
                     boardSize = value;
                     game = new Game(boardSize);
                     SwingUtilities.invokeLater(() -> {
-                        NewGame newGame = new NewGame(game,boardSize,300,3);
+                        NewGame newGame = new NewGame(game,boardSize,300);
                         Task_Viev task_viev = new Task_Viev(newGame,game);
                         Thread viev = new Thread(task_viev);
                         viev.start();
