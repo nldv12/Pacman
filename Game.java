@@ -25,18 +25,21 @@ public class Game {
     private PacMovement pacMovement;
     private PacMovement prevMove;
     private PacMovement nextMove;
+    // do usunięcia
     private int currentRow;
     private int currentColumn;
+
+
 
     private boolean pacmanDead;
 
 
-    // do usunięcia
+
     private float pucManY;
     private float pucManX;
 
 
-   public Map<Integer, Ghost> ghosts = new LinkedHashMap<>();
+    public Map<Integer, Ghost> ghosts = new LinkedHashMap<>();
 
 
 
@@ -48,19 +51,16 @@ public class Game {
         placeGhosts();
     }
 
-    public void placePacman() {
+    public void placePacman(){
         int a = 0;
         int b = 0;
         boolean succes = false;
 //        pucManX = 18.5f;
 //        pucManY = 18.5f;
         while (!succes) {
-            if (map[a][b] == FieldValue.SPACE
-                    && map[a][b + 1] == FieldValue.SPACE
-                    && map[a][b + 2] == FieldValue.SPACE
-                    && map[a][b + 3] == FieldValue.SPACE) {
-//                pucManX = a + 0.5f;
-//                pucManY = b + 0.5f;
+            if (map[a][b] == FieldValue.SPACE && map[a][b + 1] == FieldValue.SPACE && map[a][b + 2] == FieldValue.SPACE && map[a][b + 3] == FieldValue.SPACE) {
+                pucManX = a + 0.5f;
+                pucManY = b + 0.5f;
                 setCurrentRow(a);
                 setCurrentColumn(b);
                 succes = true;
@@ -79,7 +79,6 @@ public class Game {
             }
         }
     }
-
     public void placeGhosts() {
         int a = boardSize - 1;
         int b = boardSize - 1;
@@ -90,10 +89,10 @@ public class Game {
                     && map[a][b - 1] == FieldValue.SPACE
                     && map[a][b - 2] == FieldValue.SPACE
                     && map[a][b - 3] == FieldValue.SPACE) {
-                ghosts.put(0,new Ghost(a,b));
-                ghosts.put(1,new Ghost(a,b - 1));
-                ghosts.put(2,new Ghost(a,b-2));
-                ghosts.put(3,new Ghost(a,b-3));
+                ghosts.put(0,new Ghost(a +0.5f,b+0.5f));
+                ghosts.put(1,new Ghost(a+0.5f,b - 1 +0.5f));
+                ghosts.put(2,new Ghost(a+0.5f,b-2 +0.5f));
+                ghosts.put(3,new Ghost(a+0.5f,b-3 +0.5f));
                 succes = true;
             } else {
                 if (b == 0) {
@@ -111,6 +110,7 @@ public class Game {
         }
     }
 
+
     public FieldValue[][] generatedBoard(int size) {
         FieldValue[][] board = new FieldValue[size][size];
         for (int i = 0; i < size; i++) {
@@ -124,7 +124,7 @@ public class Game {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (board[i][j] == null) {
-                    if (rand.nextDouble() < 0.9) {
+                    if (rand.nextDouble() < 0.89) {
                         board[i][j] = FieldValue.SPACE;
                         if (dotCount < size * size / 2 && rand.nextDouble() < 0.5) {
                             board[i][j] = FieldValue.DOT;
@@ -225,9 +225,6 @@ public class Game {
         return pucManY;
     }
 
-
-
-
     public int getDotCount() {
         return dotCount;
     }
@@ -243,14 +240,15 @@ public class Game {
     public int getCurrentColumn() {
         return currentColumn;
     }
-
-
     public boolean isPacmanDead() {
         return pacmanDead;
     }
 
 
+
+
     //    SETTERS ==============================================================
+
     public void setPacmanDead(boolean pacmanDead) {
         this.pacmanDead = pacmanDead;
     }
@@ -270,8 +268,6 @@ public class Game {
     public void decBigDotCount() {
         this.bigDotCount--;
     }
-
-
 
     public void setPucManX(float pucManX) {
         this.pucManX = pucManX;
@@ -296,6 +292,5 @@ public class Game {
     public void incPlayerScore(int number) {
         this.playerScore += number;
     }
-
 
 }

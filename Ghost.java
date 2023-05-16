@@ -3,10 +3,16 @@ package p2;
 import p2.Enums.GhostMovement;
 
 public class Ghost {
-    public Ghost(int ghostCurrentRow, int ghostCurrentColumn) {
-        this.ghostCurrentRow = ghostCurrentRow;
-        this.ghostCurrentColumn = ghostCurrentColumn;
+    public Ghost(float ghostX, float ghostY) {
+       this.ghostX = ghostX;
+       this.ghostY = ghostY;
     }
+
+
+
+    private float ghostX;
+    private float ghostY;
+
 
     private int ghostCurrentRow;
     private int ghostCurrentColumn;
@@ -23,7 +29,26 @@ public class Ghost {
         return ghostCurrentColumn;
     }
 
+
+    public float getGhostX() {
+        return ghostX;
+    }
+
+    public float getGhostY() {
+        return ghostY;
+    }
+
+
+
     //SETTERS
+
+    public void setGhostX(float ghostX) {
+        this.ghostX = ghostX;
+    }
+
+    public void setGhostY(float ghostY) {
+        this.ghostY = ghostY;
+    }
     public void setGhostCurrentRow(int ghostCurrentRow) {
         this.ghostCurrentRow = ghostCurrentRow;
     }

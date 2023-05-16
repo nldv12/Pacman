@@ -31,6 +31,7 @@ public class NewGame extends JFrame {
     private boolean isBigMap;
 
     private CountdownPanel countdownPanel;
+    public CustomTableModel tableModel;
 
 
     public NewGame(Game game, int boardSize, int gameTimeInSeconds) {
@@ -104,11 +105,15 @@ public class NewGame extends JFrame {
 
 
 //
-//        Rectangle cellRect = table.getCellRect(0, 0, false);
-//        Rectangle cellRect2 = table.getCellRect(boardSize-1, boardSize-1, false);
+        Rectangle cellRect = table.getCellRect(0, 0, false);
+        Rectangle cellRect2 = table.getCellRect(boardSize-1, boardSize-1, false);
 //
-//        realCellSizeY = (cellRect2.y - cellRect.y) /(boardSize-1);
-//        realCellSizeX = body.getWidth()/boardSize;
+        realCellSizeX = (float) (cellRect2.x - cellRect.x) /(float) (boardSize-1);
+        realCellSizeY = (float)(cellRect2.y - cellRect.y) /(float)(boardSize-1);
+
+
+
+
 
 
 //        int totalWidth = 0;
@@ -144,7 +149,9 @@ public class NewGame extends JFrame {
         header.add(countdownPanel);
     }
     private void createTable(int boardSize) {
-        table = new JTable(new CustomTableModel(boardSize));
+
+        tableModel = new CustomTableModel(boardSize);
+        table = new JTable(tableModel);
         table.setCellSelectionEnabled(false);
         table.setBounds(0, 0, 500, 500);
         cellRenderer = new CustomTableCellRenderer(cellSize);
@@ -153,7 +160,6 @@ public class NewGame extends JFrame {
         table.setFocusable(false);
         table.setBackground(Constants.MY_BLACK);
         table.setRowHeight(cellSize);
-
 
     }
 

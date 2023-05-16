@@ -18,11 +18,10 @@ public class Task_Game implements Runnable {
             while (true) {
                 long now = System.currentTimeMillis();
                 long deltaTime = now - prevTime;
-//                long deltaTime = 100;
+//                long deltaTime = 300;
                 PacStepOperation pacStepOperation = new PacStepOperation(deltaTime, now);
                 game.performOperation(pacStepOperation);
-
-
+//
                 GhostStepOperation ghost0StepOperation = new GhostStepOperation(0,deltaTime, now);
                 game.performOperation(ghost0StepOperation);
                 GhostStepOperation ghost1StepOperation = new GhostStepOperation(1,deltaTime, now);
@@ -31,7 +30,6 @@ public class Task_Game implements Runnable {
                 game.performOperation(ghost2StepOperation);
                 GhostStepOperation ghost3StepOperation = new GhostStepOperation(3,deltaTime, now);
                 game.performOperation(ghost3StepOperation);
-
 
                 prevTime = now;
                 Thread.sleep(100);

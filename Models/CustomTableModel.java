@@ -7,7 +7,10 @@ public class CustomTableModel extends AbstractTableModel {
     private final int size;
 
     public CustomTableModel(int size) {
+
         this.size = size;
+
+        this.fireTableDataChanged();
     }
 
     @Override

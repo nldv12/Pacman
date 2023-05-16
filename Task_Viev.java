@@ -1,6 +1,5 @@
 package p2;
 
-import p2.Enums.GhostMovement;
 import p2.Enums.PacMovement;
 import p2.FRAMES.ChoosePlayerName;
 import p2.FRAMES.NewGame;
@@ -20,21 +19,19 @@ public class Task_Viev implements Runnable {
     NewGame newGame;
     BufferedImage tileSet = null;
     public ImagePanel pacmanPanel;
-    public ImagePanel ghost_1_Panel;
+
     public ImagePanel ghost0Panel;
     public ImagePanel ghost1Panel;
     public ImagePanel ghost2Panel;
     public ImagePanel ghost3Panel;
-
     boolean ispowerUp = false;
-
+    boolean initialRepainted;
     long lastImageChangeTime;
 
 
     public Task_Viev(NewGame newGame, Game game) {
         this.game = game;
         this.newGame = newGame;
-
     }
 
     @Override
@@ -48,18 +45,23 @@ public class Task_Viev implements Runnable {
             while (true) {
                 changePacman();
                 changeGhost();
-
                 FatchVievOperation fatchVievOperation = new FatchVievOperation();
                 game.performOperation(fatchVievOperation);
                 newGame.updateScore();
+//                ghostPanel.setBounds(60,60,25, 25);
 
-                showPacman();
-//                showGhost1();
-                showGhosts();
 
+                showPacman(fatchVievOperation);
+                showGhosts(fatchVievOperation);
 
                 newGame.cellRenderer.setMap(fatchVievOperation.map);
 
+
+
+                if (initialRepainted== false){
+                    newGame.table.repaint();
+                    initialRepainted = true;
+                }
 
                 boolean outOfTime = newGame.getCountdownPanel().isCountdownFinished();
                 boolean ateAllDots = game.getBigDotCount() == 0 && game.getDotCount() == 0;
@@ -67,12 +69,19 @@ public class Task_Viev implements Runnable {
 
 
                 if (outOfTime || ateAllDots || dead) {
+                    UIManager.put("OptionPane.background", Color.BLACK);
+                    UIManager.put("OptionPane.messageBackground", Color.BLACK);
+                    UIManager.put("OptionPane.messageForeground", Constants.MY_ORANGE);
+                    UIManager.put("OptionPane.messageFont", Constants.MY_FONT2);
+                    UIManager.put("Panel.background", Color.BLACK);
+                    UIManager.put("Button.background", Constants.MY_BLACK);
+                    UIManager.put("Button.foreground", Constants.MY_ORANGE);
                     if (outOfTime)
-                        JOptionPane.showMessageDialog(null, "Skończył ci się czas ale możesz zapisać swój wynnik", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Skończył ci się czas, ale możesz zapisać swój wynnik", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                     if (ateAllDots)
-                        JOptionPane.showMessageDialog(null, "Brawo! Wygrałeś możesz zapisać swój wynnik", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Brawo! Wygrałeś - możesz zapisać swój wynnik", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                     if (dead)
-                        JOptionPane.showMessageDialog(null, "Przykro mi, zostałeś zjedzony ale możesz zapisać swój wynnik", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Przykro mi, zostałeś zjedzony, ale możesz zapisać swój wynnik", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                     SwingUtilities.invokeLater(() -> new ChoosePlayerName(game, game.getPlayerScore()));
                     newGame.dispose();
                     break;
@@ -87,33 +96,79 @@ public class Task_Viev implements Runnable {
         }
     }
 
-    private void showPacman() {
-        int row = game.getCurrentRow();
-        int column = game.getCurrentColumn();
+    private void showPacman(FatchVievOperation fatchVievOperation) {
+//
+//        int row = game.getCurrentRow();
+//        int column = game.getCurrentColumn();
 
-        Rectangle cellRect = newGame.table.getCellRect(row, column, true);
-        int cellX = cellRect.x;
-        int cellY = cellRect.y;
-        pacmanPanel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
+
+//        if (restX != 0.5 && restY != 0.5) {
+        int cell1IndexX = (int)(game.getPucManX() - 0.5);
+        int cell2IndexX = (int)(game.getPucManX() - 0.5)+1;
+        int cell1IndexY = (int)(game.getPucManY() - 0.5);
+        int cell2IndexY = (int)(game.getPucManY() - 0.5)+1;
+
+
+        Rectangle cellRect = newGame.table.getCellRect(0, 0, false);
+
+
+
+//        int centreX = newGame.table.ge
+
+
+        int vievPacX = (int) ((fatchVievOperation.getPacXposition() * newGame.realCellSizeX) - newGame.realCellSizeX / 2);
+        int vievPacY = (int) ((fatchVievOperation.getPacYposition() * newGame.realCellSizeY) - newGame.realCellSizeY / 2);
+        pacmanPanel.setBounds(vievPacX, vievPacY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
+
+//        Rectangle cellRect = newGame.table.getCellRect(row, column, true);
+//
+//        int vievPacX = (int) ((fatchVievOperation.getPacXposition() * cellRect.width) - cellRect.width / 2);
+//        int vievPacY = (int) ((fatchVievOperation.getPacYposition() * cellRect.height) - cellRect.height / 2);
+//        pacmanPanel.setBounds(vievPacX, vievPacY, cellRect.width, cellRect.height);
+
+
+
+//        }else {
+//            Rectangle cellRect = newGame.table.getCellRect(row, column, true);
+//            int cellX = cellRect.x;
+//            int cellY = cellRect.y;
+//            pacmanPanel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
+//        }
+
 
     }
-
-
-    private void showGhosts() {
+    private void showGhosts(FatchVievOperation fatchVievOperation) {
         game.ghosts.forEach((id, ghost) -> {
-            int row = ghost.getGhostCurrentRow();
-            int column = ghost.getGhostCurrentColumn();
 
-            Rectangle cellRect = newGame.table.getCellRect(row, column, true);
-            int cellX = cellRect.x;
-            int cellY = cellRect.y;
-
+            int vievGhostX = (int) ((ghost.getGhostX() * newGame.realCellSizeX) - newGame.realCellSizeX / 2);
+            int vievGhostY = (int) ((ghost.getGhostY() * newGame.realCellSizeY) - newGame.realCellSizeY / 2);
             switch (id) {
-                case 0 -> ghost0Panel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
-                case 1 -> ghost1Panel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
-                case 2 -> ghost2Panel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
-                case 3 -> ghost3Panel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
+                case 0 -> ghost0Panel.setBounds(vievGhostX, vievGhostY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
+                case 1 -> ghost1Panel.setBounds(vievGhostX, vievGhostY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
+                case 2 -> ghost2Panel.setBounds(vievGhostX, vievGhostY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
+                case 3 -> ghost3Panel.setBounds(vievGhostX, vievGhostY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
             }
+
+
+//            pacmanPanel.setBounds(vievGhostX, vievGhostY, (int) newGame.realCellSizeX, (int) newGame.realCellSizeY);
+
+
+
+
+
+//            int row = ghost.getGhostCurrentRow();
+//            int column = ghost.getGhostCurrentColumn();
+//
+//            Rectangle cellRect = newGame.table.getCellRect(row, column, true);
+//            int cellX = cellRect.x;
+//            int cellY = cellRect.y;
+//
+//            switch (id) {
+//                case 0 -> ghost0Panel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
+//                case 1 -> ghost1Panel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
+//                case 2 -> ghost2Panel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
+//                case 3 -> ghost3Panel.setBounds(cellX, cellY, cellRect.width, cellRect.height);
+//            }
 
         });
 
@@ -121,6 +176,7 @@ public class Task_Viev implements Runnable {
     }
 
     private void changePacman() {
+
         if (newGame.getCellSize() == 24) {
             if (game.getPacMovement() == PacMovement.MOVE_RIGHT) {
                 if (System.currentTimeMillis() % 2 == 0)
@@ -193,29 +249,20 @@ public class Task_Viev implements Runnable {
 
     private void changeGhost() {
         if (ispowerUp) {
-            setGhostImage(ghost0Panel, 69, 132);
-            setGhostImage(ghost1Panel, 69, 132);
-            setGhostImage(ghost2Panel, 69, 132);
-            setGhostImage(ghost3Panel, 69, 132);
+            setGhostImage( 69, 132);
         } else {
             if (System.currentTimeMillis() - lastImageChangeTime >= 500) {
                 if (System.currentTimeMillis() % 2 == 0) {
-                    setGhostImage(ghost0Panel, 6, 132);
-                    setGhostImage(ghost1Panel, 6, 132);
-                    setGhostImage(ghost2Panel, 6, 132);
-                    setGhostImage(ghost3Panel, 6, 132);
+                    setGhostImage( 6, 132);
                 } else {
-                    setGhostImage(ghost0Panel, 38, 132);
-                    setGhostImage(ghost1Panel, 38, 132);
-                    setGhostImage(ghost2Panel, 38, 132);
-                    setGhostImage(ghost3Panel, 38, 132);
+                    setGhostImage( 38, 132);
                 }
                 lastImageChangeTime = System.currentTimeMillis();
             }
         }
     }
 
-    public void setGhostImage(ImagePanel ghostPanel, int x, int y) {
+    public void setGhostImage( int x, int y) {
         BufferedImage ghostTile = tileSet.getSubimage(x, y, 25, 25);
 
         if (ghost0Panel == null) {
@@ -226,8 +273,6 @@ public class Task_Viev implements Runnable {
             ghost0Panel.setImage(ghostTile);
             ghost0Panel.repaint();
         }
-
-
 
         if (ghost1Panel == null) {
             ghost1Panel = new ImagePanel(ghostTile);
