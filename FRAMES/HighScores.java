@@ -122,6 +122,20 @@ public class HighScores extends JFrame {
             JOptionPane.showMessageDialog(null, "Błąd podczas odczytu pliku HighScores.txt", "Błąd", JOptionPane.ERROR_MESSAGE);
 //            e.printStackTrace();
         }
+        records.sort((line1, line2) -> {
+            int score1 = getScoreValue(line1);
+            int score2 = getScoreValue(line2);
+            return Integer.compare(score2,score1);
+        });
+
         return records;
+    }
+
+    private static int getScoreValue(String line) {
+        int scoreStartIndex = line.indexOf("score") + 5;
+        int pointsStartIndex = line.indexOf("points");
+
+        String scoreValue = line.substring(scoreStartIndex, pointsStartIndex).trim();
+        return Integer.parseInt(scoreValue);
     }
 }
