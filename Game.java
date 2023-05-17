@@ -1,7 +1,9 @@
 package p2;
 
 import p2.Enums.FieldValue;
+import p2.Enums.GhostMovement;
 import p2.Enums.PacMovement;
+import p2.ImagePanels.CountdownPanel;
 import p2.Operations.GameOperation;
 
 import javax.swing.*;
@@ -11,7 +13,7 @@ import java.util.*;
 import java.io.File;
 
 public class Game {
-    public int test = 9;
+
     // BOARD
     private int boardSize;
     private int dotCount;
@@ -19,9 +21,7 @@ public class Game {
     private static final String FILE_NAME = "HighScores.txt";
     public FieldValue[][] map;
     private int playerScore = 0;
-
-
-
+    private int timeInSec;
     private int livesCount = 4;
 
 
@@ -29,9 +29,9 @@ public class Game {
     private PacMovement pacMovement;
     private PacMovement prevMove;
     private PacMovement nextMove;
-    // do usunięcia
-    private int currentRow;
-    private int currentColumn;
+//    // do ewentualnego usunięcia -
+//    private int currentRow;
+//    private int currentColumn;
 
     private boolean pacmanDead;
 
@@ -49,9 +49,9 @@ public class Game {
     private boolean ispowerUp = false;
     private boolean isSpeedHigher;
     private boolean isGhostsFrozen;
+    private int ghostToBeRemoved = 9;
 
-
-
+    private CountdownPanel countdownPanel ;
     boolean isPacmanInvisible;
 
 
@@ -60,7 +60,8 @@ public class Game {
 
 
 
-    public Game(int boardSize) {
+    public Game(int boardSize, int timeInSec) {
+        this.timeInSec = timeInSec;
         this.boardSize = boardSize;
         map = generatedBoard(boardSize);
         placePacman();
@@ -75,10 +76,13 @@ public class Game {
 //        pucManY = 18.5f;
         while (!succes) {
             if (map[a][b] == FieldValue.SPACE && map[a][b + 1] == FieldValue.SPACE && map[a][b + 2] == FieldValue.SPACE && map[a][b + 3] == FieldValue.SPACE) {
-                pucManX = a + 0.5f;
-                pucManY = b + 0.5f;
-                setCurrentRow(a);
-                setCurrentColumn(b);
+                pucManY = a + 0.5f;
+                pucManX = b + 0.5f;
+
+
+
+//                setCurrentRow(a);
+//                setCurrentColumn(b);
                 succes = true;
             } else {
                 if (b == boardSize - 1) {
@@ -215,6 +219,27 @@ public class Game {
         return records;
     }
 
+    public void finishGhostMovement(){
+
+        ghosts.forEach((id, ghost) -> {
+
+            float restX = ghost.getGhostX() - (int) ghost.getGhostX();
+            float restY = ghost.getGhostY() - (int) ghost.getGhostY();
+
+            if (restX != 0.5 || restY != 0.5) {
+                ghost.setGhostX((int) ghost.getGhostX() + 0.5f);
+                ghost.setGhostY((int) ghost.getGhostY() + 0.5f);
+            }
+            ghost.setGhostMove(GhostMovement.STAY);
+        });
+
+
+
+    }
+    public void add20secondsToCountdown(){
+        countdownPanel.addSeconds(20);
+    }
+
 //    GETTERS ==============================================================
 
     public int getPlayerScore() {
@@ -249,13 +274,13 @@ public class Game {
         return bigDotCount;
     }
 
-    public int getCurrentRow() {
-        return currentRow;
-    }
-
-    public int getCurrentColumn() {
-        return currentColumn;
-    }
+//    public int getCurrentRow() {
+//        return currentRow;
+//    }
+//
+//    public int getCurrentColumn() {
+//        return currentColumn;
+//    }
     public boolean isPacmanDead() {
         return pacmanDead;
     }
@@ -287,7 +312,21 @@ public class Game {
         return livesCount;
     }
 
-    //    SETTERS ==============================================================
+    public int getGhostToBeRemoved() {
+        return ghostToBeRemoved;
+    }
+
+    public CountdownPanel getCountdownPanel() {
+        return countdownPanel = new CountdownPanel(timeInSec);
+    }
+
+
+
+        //    SETTERS ==============================================================
+
+    public void setGhostToBeRemoved(int ghostToBeRemoved) {
+        this.ghostToBeRemoved = ghostToBeRemoved;
+    }
     public void decLivesCount() {
         this.livesCount --;
     }
@@ -315,13 +354,13 @@ public class Game {
         this.pacmanDead = pacmanDead;
     }
 
-    public void setCurrentRow(int currentRow) {
-        this.currentRow = currentRow;
-    }
-
-    public void setCurrentColumn(int currentColumn) {
-        this.currentColumn = currentColumn;
-    }
+//    public void setCurrentRow(int currentRow) {
+//        this.currentRow = currentRow;
+//    }
+//
+//    public void setCurrentColumn(int currentColumn) {
+//        this.currentColumn = currentColumn;
+//    }
 
     public void decDotCount() {
         this.dotCount--;

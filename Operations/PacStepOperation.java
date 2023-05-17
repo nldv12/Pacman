@@ -74,8 +74,8 @@ public class PacStepOperation extends GameOperation {
                 case MOVE_UP -> game.setPucManY(game.getPucManY() - (float) (deltaTime * pacSpeed));
                 case MOVE_DOWN -> game.setPucManY(game.getPucManY() + (float) (deltaTime * pacSpeed));
             }
-            game.setCurrentRow(nextYposition);
-            game.setCurrentColumn(nextXposition);
+//            game.setCurrentRow(nextYposition);
+//            game.setCurrentColumn(nextXposition);
         } else {
             finishMovement(game);
             game.setPacMovement(PacMovement.STAY);
@@ -87,7 +87,10 @@ public class PacStepOperation extends GameOperation {
         game.setPucManY((int) game.getPucManY() + 0.5f);
     }
 
+
+
     public void handleEating(Game game, int nextXposition, int nextYposition) {
+        handleMeetingGhost(game);
         if (game.map[nextYposition][nextXposition] == FieldValue.DOT) {
             game.incPlayerScore(1);
             game.decDotCount();
@@ -109,7 +112,7 @@ public class PacStepOperation extends GameOperation {
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
         else if (game.map[nextYposition][nextXposition] == FieldValue.ORANGE) {
-            game.ghosts.forEach((id, ghost) -> ghost.setGhostMove(GhostMovement.STAY));
+            game.finishGhostMovement();
             game.setBefore10Seconds(System.currentTimeMillis());
             game.setGhostsFrozen(true);
             game.setIspowerUp(true);
@@ -120,9 +123,30 @@ public class PacStepOperation extends GameOperation {
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
         else if (game.map[nextYposition][nextXposition] == FieldValue.TIME) {
-//            TODO: sdsdsdsdsd
+            game.add20secondsToCountdown();
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
+
+    }
+
+    private void handleMeetingGhost(Game game) {
+        game.ghosts.forEach((id, ghost) -> {
+            float ghostX = ghost.getGhostX();
+            float ghostY = ghost.getGhostY();
+
+            float pacmanX = game.getPucManX();
+            float pacmanY = game.getPucManY();
+
+            if ((int)ghostX == (int)pacmanX && (int)ghostY == (int)pacmanY){
+                if (game.isPowerUp()) {
+                   game.setGhostToBeRemoved(id);
+                }
+//                 else
+//                   game.setPacmanDead(true);
+            }
+
+
+        });
 
     }
 

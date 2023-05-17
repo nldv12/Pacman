@@ -1,6 +1,7 @@
 package p2.ImagePanels;
 
 import p2.Constants;
+import p2.Game;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -11,9 +12,6 @@ import java.io.IOException;
 
 public class CountdownPanel extends JPanel {
 
-    public boolean isCountdownFinished() {
-        return countdownFinished;
-    }
 
     private boolean countdownFinished = false;
     private int secondsLeft;
@@ -44,11 +42,10 @@ public class CountdownPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // dodaj odstęp między timerLabel a imagePanel
+        // odstęp między timerLabel a imagePanel
         timeImagePanel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
         this.add(timeImagePanel, BorderLayout.EAST);
 
-        // Uruchom wątek odliczający czas
         new Thread(() -> {
             while (secondsLeft > 0) {
                 try {
@@ -57,21 +54,24 @@ public class CountdownPanel extends JPanel {
                     e.printStackTrace();
                 }
                 secondsLeft--;
-
                 if(secondsLeft ==0)
                     countdownFinished = true;
-
-
                 timerLabel.setText(getTimeString(secondsLeft));
             }
         }).start();
     }
-
-    // Metoda formatująca czas w formacie mm:ss
     private String getTimeString(int seconds) {
         int minutes = seconds / 60;
         int secondsLeft = seconds % 60;
         return String.format("%02d:%02d", minutes, secondsLeft);
+    }
+    public boolean isCountdownFinished() {
+        return countdownFinished;
+    }
+
+    public void addSeconds(int seconds) {
+        secondsLeft += seconds;
+        timerLabel.setText(getTimeString(secondsLeft));
     }
 }
 

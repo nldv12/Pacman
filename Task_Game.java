@@ -79,9 +79,9 @@ public class Task_Game implements Runnable {
             GhostStepOperation ghostStepOperation = new GhostStepOperation(id, deltaTime, pased5Seconds);
             game.performOperation(ghostStepOperation);
         });
-        if (game.test !=9){
-            game.ghosts.remove(game.test);
-            game.test = 9;
+        if (game.getGhostToBeRemoved() !=999){
+            game.ghosts.remove(game.getGhostToBeRemoved());
+            game.setGhostToBeRemoved(999);
         }
 
 

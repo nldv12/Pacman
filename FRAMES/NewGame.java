@@ -54,10 +54,9 @@ public class NewGame extends JFrame {
     public float realCellSizeX;
     public float realCellSizeY;
 
-    public NewGame(Game game, int boardSize, int gameTimeInSeconds) {
+    public NewGame(Game game, int boardSize) {
         this.game = game;
         this.boardSize = boardSize;
-        this.gameTimeInSeconds = gameTimeInSeconds;
 
 
         if (boardSize < 30) {
@@ -173,7 +172,7 @@ public class NewGame extends JFrame {
         livesNumber.setFont(Constants.MY_FONT2);
 
         JLabel space = new JLabel("   ");
-        countdownPanel = new CountdownPanel(gameTimeInSeconds);
+        countdownPanel = game.getCountdownPanel();
 
         header.add(scoreName);
         header.add(score);

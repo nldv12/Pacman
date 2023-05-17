@@ -222,13 +222,13 @@ public class Task_Viev implements Runnable {
     private void changeGhost() {
         if (newGame.getCellSize() == 24) {
             if (game.isPowerUp()) {
-                setGhostImage( 69, 132);
+                setGhostImage( 57, 133);
             } else {
                 if (System.currentTimeMillis() - lastImageChangeTime >= 500) {
                     if (System.currentTimeMillis() % 2 == 0) {
-                        setGhostImage( 6, 132);
+                        setGhostImage( 6, 133);
                     } else {
-                        setGhostImage( 38, 132);
+                        setGhostImage( 32, 133);
                     }
                     lastImageChangeTime = System.currentTimeMillis();
                 }
@@ -254,7 +254,14 @@ public class Task_Viev implements Runnable {
     }
 
     public void setGhostImage( int x, int y) {
-        BufferedImage ghostTile = tileSet.getSubimage(x, y, 25, 25);
+        BufferedImage ghostTile = tileSet.getSubimage(x, y, 22, 22);
+
+        if (newGame.getCellSize() == 24){
+            ghostTile = tileSet.getSubimage(x, y, 22, 22);
+        }else {
+            ghostTile = tileSet.getSubimage(x, y, 16, 16);
+        }
+
 
         if (ghost0Panel == null) {
             ghost0Panel = new ImagePanel(ghostTile);

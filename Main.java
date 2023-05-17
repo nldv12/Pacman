@@ -8,13 +8,13 @@ public class Main {
 
     public static void main(String[] args) {
         int boardSize = 15;
-        Game game = new Game(boardSize);
+        Game game = new Game(boardSize,300);
 //        SwingUtilities.invokeLater(() -> new MainMenu(game));
 //        SwingUtilities.invokeLater(() -> new HighScores(game));
 //        SwingUtilities.invokeLater(() -> new ChoosePlayerName(game,50));
 //        SwingUtilities.invokeLater(() -> new ChooseBoardSize());
         SwingUtilities.invokeLater(() -> {// do usunięcia (ale najpierw zamień w ChooseBoardSize)
-            NewGame newGame = new NewGame(game,boardSize,300);
+            NewGame newGame = new NewGame(game,boardSize);
             Task_Viev task_viev = new Task_Viev(newGame,game);
             Thread viev = new Thread(task_viev);
             viev.start();
