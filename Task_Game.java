@@ -1,11 +1,7 @@
 package p2;
 
 import p2.Enums.GhostMovement;
-import p2.FRAMES.NewGame;
 import p2.Operations.*;
-
-import java.util.Iterator;
-import java.util.Map;
 
 public class Task_Game implements Runnable {
 
@@ -25,17 +21,17 @@ public class Task_Game implements Runnable {
             long before5Seconds = System.currentTimeMillis();
 
             while (true) {
-                before20Seconds = game.getBefore10Seconds();
+                before20Seconds = game.getTimeBeforePowerUp();
                 long now = System.currentTimeMillis();
-//                long deltaTime = now - prevTime;
-                long deltaTime = 109;
+                long deltaTime = now - prevTime;
 
                 if (now - before5Seconds > 5000) {
                     pased5Seconds = true;
                     before5Seconds = now;
-                } else
+                } else{
                     pased5Seconds = false;
-                run10SecTimer(now);
+                }
+                runTimer(now);
                 movePacman(deltaTime);
                 moveGhosts(deltaTime);
 
@@ -46,27 +42,50 @@ public class Task_Game implements Runnable {
             throw new RuntimeException(e);
         }
 
-
     }
 
-    private void run10SecTimer(long now) {
+    private void runTimer(long now) {
         if (game.isSpeedHigher()) {
-            if (now - game.getBefore10Seconds() >= 10000) {
+            game.addPowerUpName("  Super Speed");
+            if (now - game.getTimeBeforePowerUp() >= 10000) {
+                game.removeShortCountdownPanel();
+                game.addPowerUpName("");
                 game.setSpeedHigher(false);
                 game.setPacSpeed(0.005);
                 game.setIspowerUp(false);
             }
         }
         if (game.isGhostsFrozen()) {
-            if (now - game.getBefore10Seconds() >= 10000) {
+            game.addPowerUpName("  Ghosts Frozen");
+            if (now - game.getTimeBeforePowerUp() >= 10000) {
+                game.removeShortCountdownPanel();
+                game.addPowerUpName("");
                 game.ghosts.forEach((id, ghost) -> ghost.setGhostMove(GhostMovement.MOVE));
                 game.setGhostsFrozen(false);
                 game.setIspowerUp(false);
             }
         }
-
-
-
+        if (game.ateApple()){
+            game.addPowerUpName("  + 20 points!");
+            if (now - game.getTimeBeforePowerUp() >= 1000) {
+                game.addPowerUpName("");
+                game.setAteApple(false);
+            }
+        }
+        if (game.ateStrawberry()){
+            game.addPowerUpName("  + 1 extra life");
+            if (now - game.getTimeBeforePowerUp() >= 1000) {
+                game.addPowerUpName("");
+                game.setAteStrawberry(false);
+            }
+        }
+        if (game.ateTime()){
+            game.addPowerUpName("  + 20 seconds");
+            if (now - game.getTimeBeforePowerUp() >= 1000) {
+                game.addPowerUpName("");
+                game.setAteTime(false);
+            }
+        }
     }
 
     private void movePacman(long deltaTime) {
@@ -83,8 +102,5 @@ public class Task_Game implements Runnable {
             game.ghosts.remove(game.getGhostToBeRemoved());
             game.setGhostToBeRemoved(999);
         }
-
-
-
     }
 }

@@ -2,7 +2,6 @@ package p2.Operations;
 
 import p2.Enums.FieldValue;
 import p2.Enums.GhostMovement;
-import p2.Enums.PacMovement;
 import p2.Game;
 
 import java.util.Random;
@@ -26,7 +25,6 @@ public class GhostStepOperation extends GameOperation {
 
 
         if (game.ghosts.get(index).getGhostMove() != GhostMovement.STAY) {
-
             if (game.ghosts.get(index).getGhostMove() == GhostMovement.MOVE||pased5Seconds) {
                 Random rand = new Random();
                 int randomNumber = rand.nextInt(4) + 1;
@@ -76,10 +74,6 @@ public class GhostStepOperation extends GameOperation {
     public void moveGhost(Game game, int nextXposition, int nextYposition, GhostMovement ghostMovement) {
         if (game.map[nextYposition][nextXposition] != FieldValue.WALL) {
             switch (ghostMovement) {
-//                case MOVE_RIGHT -> game.ghosts.get(index).setGhostX(game.ghosts.get(index).getGhostX() + 1);
-//                case MOVE_lEFT -> game.ghosts.get(index).setGhostX(game.ghosts.get(index).getGhostX() - 1);
-//                case MOVE_UP -> game.ghosts.get(index).setGhostY(game.ghosts.get(index).getGhostY() - 1);
-//                case MOVE_DOWN -> game.ghosts.get(index).setGhostY(game.ghosts.get(index).getGhostY() + 1);
 
                 case MOVE_RIGHT ->
                         game.ghosts.get(index).setGhostX(game.ghosts.get(index).getGhostX() + (float) (deltaTime * ghostSpeed));
@@ -106,16 +100,12 @@ public class GhostStepOperation extends GameOperation {
         if (direction==GhostMovement.MOVE_RIGHT)
             game.ghosts.get(index).setGhostY((int) game.ghosts.get(index).getGhostY() + 0.5f);
     }
-
-
     public void handleDrop(Game game, int currentXPossition, int currentYposition) {
         if (pased5Seconds) {
             Random random = new Random();
             int randomProbability = random.nextInt(100);
-            if (randomProbability < 25) {
+            if (randomProbability < 99) {
                 int powerUp = random.nextInt(5) + 1;
-//                int powerUp = 5;
-
 
                 if (game.map[currentYposition][currentXPossition] == FieldValue.DOT)
                     game.decDotCount();
@@ -132,7 +122,5 @@ public class GhostStepOperation extends GameOperation {
             }
         }
     }
-
-
 }
 

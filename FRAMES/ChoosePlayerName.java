@@ -1,35 +1,37 @@
 package p2.FRAMES;
 
 import p2.*;
+import p2.Enums.PacMovement;
+import p2.Operations.MovePacOperation;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ChoosePlayerName extends JFrame {
     Game game;
 
-    private int score ;
-
     public ChoosePlayerName(Game game, int score) {
         this.game = game;
-        this.score = score;
 
         setTitle("Pacman - Choose Player Name");
+
 
         JPanel panel = new JPanel(new FlowLayout());
 
 
         JLabel label = new JLabel("Wprowadź nazwę gracza");
         label.setForeground(Constants.MY_ORANGE);
-        label.setFont(Constants.MY_FONT2);
+        label.setFont(Constants.MY_FONT_MEDIUM);
         panel.add(label);
 
         JTextField textField = new JTextField(10);
         textField.setBackground(Constants.MY_GREY);
         textField.setForeground(Constants.MY_ORANGE);
-        textField.setFont(Constants.MY_FONT2);
+        textField.setFont(Constants.MY_FONT_MEDIUM);
 
         panel.add(textField);
 
@@ -39,11 +41,19 @@ public class ChoosePlayerName extends JFrame {
 
         panel.add(button);
 
+        UIManager.put("OptionPane.background", Color.BLACK);
+        UIManager.put("OptionPane.messageBackground", Color.BLACK);
+        UIManager.put("OptionPane.messageForeground", Constants.MY_ORANGE);
+        UIManager.put("OptionPane.messageFont", Constants.MY_FONT_MEDIUM);
+        UIManager.put("Panel.background", Color.BLACK);
+        UIManager.put("Button.background", Constants.MY_BLACK);
+        UIManager.put("Button.foreground", Constants.MY_ORANGE);
+
         ActionListener okActionListener = e -> {
             String name = textField.getText();
             if (name.length() > 1 && name.length() < 16) {
                 game.addRecord(new Player(name, score));
-                SwingUtilities.invokeLater(() -> new HighScores(game));
+                SwingUtilities.invokeLater(() -> new HighScores());
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(ChoosePlayerName.this, "Imię może mieć min 2 znaki max 15", "Błąd", JOptionPane.ERROR_MESSAGE);
@@ -58,6 +68,19 @@ public class ChoosePlayerName extends JFrame {
                 okActionListener.actionPerformed(e);
             }
         });
+
+
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
+                    SwingUtilities.invokeLater(() -> new MainMenu());
+                    dispose();
+                }
+            }
+        });
+
+        setFocusable(true);
 
         setContentPane(panel);
         pack();

@@ -22,12 +22,9 @@ public class CustomTableCellRenderer extends DefaultTableCellRenderer {
     private BufferedImage appleImage;
     private BufferedImage timeImage;
     private FieldValue[][] map;
-    private final int cellSize;
-//    public FieldValue[][] map;
 
 
     public CustomTableCellRenderer(int cellSize) {
-        this.cellSize = cellSize;
 
         setHorizontalAlignment(JLabel.CENTER);
         setVerticalAlignment(JLabel.CENTER);
@@ -65,52 +62,55 @@ public class CustomTableCellRenderer extends DefaultTableCellRenderer {
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         if (map != null) {
             switch (map[row][column]) {
-                case SPACE:
-                    c.setBackground(Constants.MY_BLACK);
-                    break;
-                case WALL:
+                case SPACE -> c.setBackground(Constants.MY_BLACK);
+                case WALL -> {
                     JLabel wallLabel = new JLabel(new ImageIcon(wallImage));
                     wallLabel.setHorizontalAlignment(JLabel.CENTER);
                     wallLabel.setVerticalAlignment(JLabel.CENTER);
                     return wallLabel;
-                case DOT:
+                }
+                case DOT -> {
                     JLabel dotLabel = new JLabel(new ImageIcon(dotImage));
                     dotLabel.setHorizontalAlignment(JLabel.CENTER);
                     dotLabel.setVerticalAlignment(JLabel.CENTER);
                     return dotLabel;
-                case BIG_DOT:
+                }
+                case BIG_DOT -> {
                     JLabel bigDotLabel = new JLabel(new ImageIcon(bigDotImage));
                     bigDotLabel.setHorizontalAlignment(JLabel.CENTER);
                     bigDotLabel.setVerticalAlignment(JLabel.CENTER);
                     return bigDotLabel;
-                case CHERRY:
+                }
+                case CHERRY -> {
                     JLabel cherryLabel = new JLabel(new ImageIcon(cherryImage));
                     cherryLabel.setHorizontalAlignment(JLabel.CENTER);
                     cherryLabel.setVerticalAlignment(JLabel.CENTER);
                     return cherryLabel;
-                case STRAWBERRY:
+                }
+                case STRAWBERRY -> {
                     JLabel strawberryLabel = new JLabel(new ImageIcon(strawberryImage));
                     strawberryLabel.setHorizontalAlignment(JLabel.CENTER);
                     strawberryLabel.setVerticalAlignment(JLabel.CENTER);
                     return strawberryLabel;
-                case ORANGE:
+                }
+                case ORANGE -> {
                     JLabel orangeLabel = new JLabel(new ImageIcon(orangeImage));
                     orangeLabel.setHorizontalAlignment(JLabel.CENTER);
                     orangeLabel.setVerticalAlignment(JLabel.CENTER);
                     return orangeLabel;
-                case APPLE:
+                }
+                case APPLE -> {
                     JLabel appleLabel = new JLabel(new ImageIcon(appleImage));
                     appleLabel.setHorizontalAlignment(JLabel.CENTER);
                     appleLabel.setVerticalAlignment(JLabel.CENTER);
                     return appleLabel;
-                case TIME:
+                }
+                case TIME -> {
                     JLabel timeLabel = new JLabel(new ImageIcon(timeImage));
                     timeLabel.setHorizontalAlignment(JLabel.CENTER);
                     timeLabel.setVerticalAlignment(JLabel.CENTER);
                     return timeLabel;
-
-
-
+                }
             }
         }
         return c;

@@ -1,7 +1,6 @@
 package p2.ImagePanels;
 
 import p2.Constants;
-import p2.Game;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,8 +15,6 @@ public class CountdownPanel extends JPanel {
     private boolean countdownFinished = false;
     private int secondsLeft;
     private JLabel timerLabel;
-    private BufferedImage tileSet;
-    private BufferedImage timeTile;
 
     public CountdownPanel(int timeInSec) {
         this.setLayout(new BorderLayout());
@@ -26,8 +23,7 @@ public class CountdownPanel extends JPanel {
         this.secondsLeft = timeInSec;
 
         timerLabel = new JLabel(getTimeString(secondsLeft));
-        timerLabel.setForeground(Constants.MY_ORANGE);
-        timerLabel.setFont(Constants.MY_FONT1);
+        timerLabel.setFont(Constants.MY_FONT_BIG);
         timerLabel.setHorizontalAlignment(JLabel.CENTER);
 
         this.add(timerLabel, BorderLayout.CENTER);
@@ -35,8 +31,8 @@ public class CountdownPanel extends JPanel {
         JPanel timeImagePanel = new JPanel(new BorderLayout());
         timeImagePanel.setOpaque(false);
         try {
-            tileSet = ImageIO.read(new File("tileSet.png"));
-            timeTile = tileSet.getSubimage(302, 65, 27, 27);
+            BufferedImage tileSet = ImageIO.read(new File("tileSet.png"));
+            BufferedImage timeTile = tileSet.getSubimage(302, 65, 27, 27);
             JLabel imageLabel = new JLabel(new ImageIcon(timeTile));
             timeImagePanel.add(imageLabel, BorderLayout.EAST);
         } catch (IOException e) {
@@ -48,6 +44,13 @@ public class CountdownPanel extends JPanel {
 
         new Thread(() -> {
             while (secondsLeft > 0) {
+
+                if (secondsLeft<11)
+                    timerLabel.setForeground(Constants.MY_POWERUP_ORANGE);
+                else
+                    timerLabel.setForeground(Constants.MY_ORANGE);
+
+
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -58,7 +61,10 @@ public class CountdownPanel extends JPanel {
                     countdownFinished = true;
                 timerLabel.setText(getTimeString(secondsLeft));
             }
+            if (secondsLeft ==0)
+                setVisible(false);
         }).start();
+
     }
     private String getTimeString(int seconds) {
         int minutes = seconds / 60;

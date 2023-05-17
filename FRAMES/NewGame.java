@@ -4,14 +4,12 @@ import p2.*;
 import p2.Enums.PacMovement;
 import p2.ImagePanels.CountdownPanel;
 import p2.ImagePanels.ImagePanel;
-import p2.ImagePanels.LivesPanel;
 import p2.Models.CustomTableCellRenderer;
 import p2.Models.CustomTableModel;
 import p2.Operations.MovePacOperation;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -20,45 +18,34 @@ import java.io.File;
 import java.io.IOException;
 
 public class NewGame extends JFrame {
-    private int width;
-    private int height;
 
 
     //PANELS
-    private JPanel header = new JPanel();
+    private final JPanel header = new JPanel();
     private JLabel score;
-
-    private ImagePanel livesPanel;
     private JLabel livesNumber;
     private CountdownPanel countdownPanel;
-    private JPanel body;
 
     public JTable table;
 
-    private JPanel footer = new JPanel();
     public CustomTableModel tableModel;
     public CustomTableCellRenderer cellRenderer;
 
 
     // VALUES from Constructor
-
-    private Game game;
-    private int boardSize;
+    private final Game game;
+    private final int boardSize;
     private int cellSize;
     private boolean isBigMap;
-    private int gameTimeInSeconds;
 
 
     //OTHER
-
     public float realCellSizeX;
     public float realCellSizeY;
 
     public NewGame(Game game, int boardSize) {
         this.game = game;
         this.boardSize = boardSize;
-
-
         if (boardSize < 30) {
             this.cellSize = 24;
         } else if (boardSize > 30 ) {
@@ -69,8 +56,8 @@ public class NewGame extends JFrame {
         }
 
 
-        this.width = cellSize * boardSize;
-        this.height = width + 105;
+        int width = cellSize * boardSize;
+        int height = width + 105;
         setTitle("Pacman - Menu Główne");
 
         getContentPane().setLayout(new BorderLayout());
@@ -88,18 +75,16 @@ public class NewGame extends JFrame {
             JScrollPane scrollPane = new JScrollPane(tablePanel);
             getContentPane().add(scrollPane, BorderLayout.CENTER);
         }else{
-            body = new JPanel();
+            JPanel body = new JPanel();
             body.setPreferredSize(new Dimension(500, 500));
             getContentPane().add(body, BorderLayout.CENTER);
             createTable(boardSize);
             body.setLayout(new BorderLayout());
             body.add(table, BorderLayout.CENTER);
-            if (boardSize<15){
-                footer.setBackground(Constants.MY_BLACK);
-                getContentPane().add(footer, BorderLayout.SOUTH);
-            }
 
         }
+
+        getContentPane().add(game.getFooter(), BorderLayout.SOUTH);
 
         getContentPane().setBackground(Constants.MY_BLACK);
         setPreferredSize(new Dimension(width, height));
@@ -125,7 +110,7 @@ public class NewGame extends JFrame {
                     MovePacOperation movePacOperation = new MovePacOperation(PacMovement.MOVE_DOWN);
                     game.performOperation(movePacOperation);
                 } else if (e.isControlDown() && e.isShiftDown() && e.getKeyCode() == KeyEvent.VK_Q) {
-                    SwingUtilities.invokeLater(() -> new MainMenu(game));
+                    SwingUtilities.invokeLater(() -> new MainMenu());
                     dispose();
                 }
             }
@@ -145,11 +130,11 @@ public class NewGame extends JFrame {
     private void fillHeader() {
         JLabel scoreName = new JLabel("Score: ");
         scoreName.setForeground(Constants.MY_ORANGE);
-        scoreName.setFont(Constants.MY_FONT2);
+        scoreName.setFont(Constants.MY_FONT_MEDIUM);
 
         score = new JLabel(game.getPlayerScore() +"   ");
         score.setForeground(Constants.MY_ORANGE);
-        score.setFont(Constants.MY_FONT2);
+        score.setFont(Constants.MY_FONT_MEDIUM);
 
         BufferedImage tileSet = null;
         BufferedImage heartTile;
@@ -159,17 +144,17 @@ public class NewGame extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assert tileSet != null;
         heartTile = tileSet.getSubimage(270, 66, 22, 22);
 
 
-        livesPanel = new ImagePanel(heartTile);
+        ImagePanel livesPanel = new ImagePanel(heartTile);
         livesPanel.setPreferredSize(new Dimension(25,25));
         livesPanel.setBackground(Constants.MY_BLACK);
-//        livesPanel = new LivesPanel();
 
         livesNumber = new JLabel(game.getLivesCount() +"  ");
         livesNumber.setForeground(Constants.MY_ORANGE);
-        livesNumber.setFont(Constants.MY_FONT2);
+        livesNumber.setFont(Constants.MY_FONT_MEDIUM);
 
         JLabel space = new JLabel("   ");
         countdownPanel = game.getCountdownPanel();
@@ -183,9 +168,7 @@ public class NewGame extends JFrame {
             header.add(space);
             header.add(countdownPanel);
         }
-        else {
-            footer.add(countdownPanel);
-        }
+
 
     }
     private void createTable(int boardSize) {

@@ -1,27 +1,19 @@
 package p2.Operations;
 
 import p2.Enums.FieldValue;
-import p2.Enums.GhostMovement;
 import p2.Enums.PacMovement;
-import p2.FRAMES.NewGame;
 import p2.Game;
-import p2.ImagePanels.LivesPanel;
 
 public class PacStepOperation extends GameOperation {
-    long deltaTime;
-
-    double pacSpeed ;
-
-
+    private long deltaTime;
+    private double pacSpeed ;
 
     public PacStepOperation(long deltaTime) {
         this.deltaTime = deltaTime;
     }
-
     @Override
     public void doOperation(Game game) {
         this.pacSpeed = game.getPacSpeed();
-
 
         float restY = (game.getPucManY() - (int) game.getPucManY());
         float restX = (game.getPucManX() - (int) game.getPucManX());
@@ -63,19 +55,12 @@ public class PacStepOperation extends GameOperation {
     public void movePacman(Game game, int nextXposition, int nextYposition, PacMovement pacMovement) {
         if (game.map[nextYposition][nextXposition] != FieldValue.WALL) {
             switch (pacMovement) {
-//                case MOVE_RIGHT -> game.setPucManX(game.getPucManX() + 1);
-//                case MOVE_lEFT -> game.setPucManX(game.getPucManX() - 1);
-//                case MOVE_UP -> game.setPucManY(game.getPucManY() - 1);
-//                case MOVE_DOWN -> game.setPucManY(game.getPucManY() + 1);
-
-//
                 case MOVE_RIGHT -> game.setPucManX(game.getPucManX() + (float) (deltaTime * pacSpeed));
                 case MOVE_lEFT -> game.setPucManX(game.getPucManX() - (float) (deltaTime * pacSpeed));
                 case MOVE_UP -> game.setPucManY(game.getPucManY() - (float) (deltaTime * pacSpeed));
                 case MOVE_DOWN -> game.setPucManY(game.getPucManY() + (float) (deltaTime * pacSpeed));
             }
-//            game.setCurrentRow(nextYposition);
-//            game.setCurrentColumn(nextXposition);
+
         } else {
             finishMovement(game);
             game.setPacMovement(PacMovement.STAY);
@@ -88,9 +73,10 @@ public class PacStepOperation extends GameOperation {
     }
 
 
-
     public void handleEating(Game game, int nextXposition, int nextYposition) {
+
         handleMeetingGhost(game);
+
         if (game.map[nextYposition][nextXposition] == FieldValue.DOT) {
             game.incPlayerScore(1);
             game.decDotCount();
@@ -102,31 +88,38 @@ public class PacStepOperation extends GameOperation {
         }
         else if (game.map[nextYposition][nextXposition] == FieldValue.CHERRY) {
             game.setSpeedHigher(true);
-            game.setBefore10Seconds(System.currentTimeMillis());
+            game.addShortCountdownPanel(10);
+            game.setTimeBeforePowerUp(System.currentTimeMillis());
             game.setPacSpeed(0.009);
             game.setIspowerUp(true);
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
         else if (game.map[nextYposition][nextXposition] == FieldValue.STRAWBERRY) {
+            game.setAteStrawberry(true);
+            game.setTimeBeforePowerUp(System.currentTimeMillis());
             game.incLivesCount();
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
         else if (game.map[nextYposition][nextXposition] == FieldValue.ORANGE) {
+            game.addShortCountdownPanel(10);
             game.finishGhostMovement();
-            game.setBefore10Seconds(System.currentTimeMillis());
+            game.setTimeBeforePowerUp(System.currentTimeMillis());
             game.setGhostsFrozen(true);
             game.setIspowerUp(true);
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
         else if (game.map[nextYposition][nextXposition] == FieldValue.APPLE) {
+            game.setAteApple(true);
+            game.setTimeBeforePowerUp(System.currentTimeMillis());
             game.incPlayerScore(20);
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
         else if (game.map[nextYposition][nextXposition] == FieldValue.TIME) {
+            game.setAteTime(true);
+            game.setTimeBeforePowerUp(System.currentTimeMillis());
             game.add20secondsToCountdown();
             game.map[nextYposition][nextXposition] = FieldValue.SPACE;
         }
-
     }
 
     private void handleMeetingGhost(Game game) {
@@ -141,15 +134,11 @@ public class PacStepOperation extends GameOperation {
                 if (game.isPowerUp()) {
                    game.setGhostToBeRemoved(id);
                 }
-//                 else
-//                   game.setPacmanDead(true);
+                 else
+                   game.setPacmanDead(true);
             }
-
-
         });
 
     }
-
-
 }
 
